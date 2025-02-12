@@ -4,6 +4,9 @@ public class UserPojo {
   private String username;
   private String password;
 
+  public UserPojo() {
+  }
+
   public UserPojo(String username, String password) {
     this.username = username;
     this.password = password;
