@@ -22,9 +22,6 @@ public class UserBean implements Serializable {
   private jakarta.inject.Provider<ServletContext> servletContext;
   private static ArrayList<UserPojo> userPojos = new ArrayList<>();
 
-  @Inject
-  ActivityBean activityBean;
-
   @Inject LoginBean loginBean;
 
   public boolean login(String username, String password){
@@ -38,12 +35,14 @@ public class UserBean implements Serializable {
   }
 
   public boolean register(String username, String password){
+    //TODO retirar
     System.out.println("Registando utilizador: " + username);
-    UserPojo u = activityBean.getUser(username, password);
+    System.out.println("password: " + password);
+    UserPojo u = UserBean.getUser(username, password);
     if (u==null){
       u= new UserPojo(username,password);
       userPojos.add(u);
-      activityBean.addUser(u);
+      UserBean.addUser(u);
       return true;
     }else
       return false;
@@ -86,9 +85,7 @@ public class UserBean implements Serializable {
     return null;
   }
 
-  public void addUser(UserPojo u) {
+  public static void addUser(UserPojo u) {
     userPojos.add(u);
   }
-
-
 }

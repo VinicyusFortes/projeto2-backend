@@ -26,6 +26,9 @@ public class UserService {
   @Consumes(MediaType.APPLICATION_JSON)
   public Response registerUser(UserDto user) {
     if (userbean.register(user.getUsername(), user.getPassword())) {
+      //TODO retirar
+      System.out.println(user.getUsername());
+      System.out.println(user.getPassword());
       return Response.status(200).entity("The new user is registered").build();
     }
     return Response.status(200).entity("There is a user with the same username!").build();
@@ -39,6 +42,8 @@ public class UserService {
     if (userbean.login(user.getUsername(), user.getPassword())) {
       return Response.status(200).entity("Login Successful!").build();
     }
+    System.out.println("username" +  user.getUsername());
+    System.out.println("senha" +  user.getPassword());
     return Response.status(200).entity("Wrong Username or Password !").build();
   }
 
