@@ -8,11 +8,12 @@ public class UserPojo {
   private String cellphone;
   private String email;
   private String image;
+  private int id;
 
   public UserPojo() {
   }
 //TODO: os parametros deste construtor que de coincidir com os parametros do userdto e com qualquer request que envolva criar ou atualizar utilizador no userbean.java(register() e convertUserPojoToUserDto())
-  public UserPojo(String username, String password, String firstName, String lastName, String cellphone, String email, String image) {
+  public UserPojo(String username, String password, String firstName, String lastName, String cellphone, String email, String image, int id) {
     this.username = username;
     this.password = password;
     this.firstName = firstName;
@@ -20,6 +21,7 @@ public class UserPojo {
     this.cellphone = cellphone;
     this.email = email;
     this.image = image;
+    this.id = id;
   }
 
   public String getUsername() {
@@ -77,5 +79,15 @@ public class UserPojo {
   public void setEmail(String email) {
     this.email = email;
   }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+
 }
 

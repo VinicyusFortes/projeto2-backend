@@ -5,6 +5,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class UserDto {
+  private static int counter = 1;
   private String username;
   private String password;
   private String firstName;
@@ -12,11 +13,15 @@ public class UserDto {
   private String cellphone;
   private String email;
   private String image;
+  private int id;
 
 
-  public UserDto() {}
+  public UserDto() {
+    this.id = counter++;
+  }
 
-  public UserDto(String username, String password, String firstName, String lastName, String cellphone, String email, String image) {
+
+  public UserDto(String username, String password, String firstName, String lastName, String cellphone, String email, String image, int id) {
     this.username = username;
     this.password = password;
     this.firstName = firstName;
@@ -24,6 +29,7 @@ public class UserDto {
     this.cellphone = cellphone;
     this.email = email;
     this.image = image;
+    this.id = id;
   }
 
   @XmlElement
@@ -82,5 +88,21 @@ public class UserDto {
 
   public void setImage(String image) {
     this.image = image;
+  }
+
+  public static int getCounter() {
+    return counter;
+  }
+
+  public static void setCounter(int counter) {
+    UserDto.counter = counter;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 }

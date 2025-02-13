@@ -41,7 +41,8 @@ public class UserBean implements Serializable {
 
         UserPojo u = UserBean.getUser(user.getUsername(), user.getPassword());
         if (u == null) {
-            u = new UserPojo(user.getUsername(), user.getPassword(),user.getFirstName(), user.getLastName(), user.getCellphone(), user.getEmail(), user.getImage());
+            int counter = UserDto.getCounter();
+            u = new UserPojo(user.getUsername(), user.getPassword(),user.getFirstName(), user.getLastName(), user.getCellphone(), user.getEmail(), user.getImage(), counter);
             UserBean.addUser(u);
             writeIntoJsonFile();
             return true;
@@ -51,13 +52,15 @@ public class UserBean implements Serializable {
 
     public UserDto getLoggeduser() {
         UserPojo u = loginBean.getCurrentUser();
+        System.out.println("id:" + u.getId());
         if (u != null)
             return convertUserPojoToUserDto(u);
         else return null;
     }
 
     private UserDto convertUserPojoToUserDto(UserPojo up) {
-        UserDto ud = new UserDto(up.getUsername(), up.getPassword(),up.getFirstName(), up.getLastName(), up.getCellphone(), up.getEmail(), up.getImage());
+        UserDto ud = new UserDto(up.getUsername(), up.getPassword(),up.getFirstName(), up.getLastName(), up.getCellphone(), up.getEmail(), up.getImage(), UserDto.getCounter());
+        System.out.println("converted id" +  up.getId());
         return ud;
     }
 
