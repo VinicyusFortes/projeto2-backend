@@ -1,10 +1,6 @@
-package aor.paj.fgomesvfortesproj2.dto;
+package pt.uc.dei.proj2.pojo;
 
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
-public class UserDto {
+public class UserPojo {
   private String username;
   private String password;
   private String firstName;
@@ -13,16 +9,10 @@ public class UserDto {
   private String email;
   private String image;
 
-
-  public UserDto() {}
-
-  public UserDto(String username, String password, String image) {
-    this.username = username;
-    this.password = password;
-    this.image = image;
+  public UserPojo() {
   }
-
- /* public UserDto(String username, String password, String firstName, String lastName, String cellphone, String email, String image) {
+//TODO: os parametros deste construtor que de coincidir com os parametros do userdto e com qualquer request que envolva criar ou atualizar utilizador no userbean.java(register() e convertUserPojoToUserDto())
+  public UserPojo(String username, String password, String firstName, String lastName, String cellphone, String email, String image) {
     this.username = username;
     this.password = password;
     this.firstName = firstName;
@@ -30,9 +20,8 @@ public class UserDto {
     this.cellphone = cellphone;
     this.email = email;
     this.image = image;
-  }*/
+  }
 
-  @XmlElement
   public String getUsername() {
     return username;
   }
@@ -41,13 +30,20 @@ public class UserDto {
     this.username = username;
   }
 
-  @XmlElement
   public String getPassword() {
     return password;
   }
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public String getImage() {
+    return image;
+  }
+
+  public void setImage(String image) {
+    this.image = image;
   }
 
   public String getFirstName() {
@@ -81,12 +77,5 @@ public class UserDto {
   public void setEmail(String email) {
     this.email = email;
   }
-
-  public String getImage() {
-    return image;
-  }
-
-  public void setImage(String image) {
-    this.image = image;
-  }
 }
+

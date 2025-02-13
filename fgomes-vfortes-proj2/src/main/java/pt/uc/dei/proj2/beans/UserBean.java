@@ -1,7 +1,7 @@
-package aor.paj.fgomesvfortesproj2.pt.uc.dei.proj2;
+package pt.uc.dei.proj2.beans;
 
-import aor.paj.fgomesvfortesproj2.dto.UserDto;
-import aor.paj.fgomesvfortesproj2.pojo.UserPojo;
+import pt.uc.dei.proj2.dto.UserDto;
+import pt.uc.dei.proj2.pojo.UserPojo;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.json.bind.Jsonb;
@@ -37,13 +37,11 @@ public class UserBean implements Serializable {
             return false;
     }
 
-    public boolean register(String username, String password, String image) {
-        //TODO retirar
-        System.out.println("Registando utilizador: " + username);
-        System.out.println("password: " + password);
-        UserPojo u = UserBean.getUser(username, password);
+    public boolean register(UserDto user) {
+
+        UserPojo u = UserBean.getUser(user.getUsername(), user.getPassword());
         if (u == null) {
-            u = new UserPojo(username, password, image);
+            u = new UserPojo(user.getUsername(), user.getPassword(),user.getFirstName(), user.getLastName(), user.getCellphone(), user.getEmail(), user.getImage());
             UserBean.addUser(u);
             writeIntoJsonFile();
             return true;
@@ -54,12 +52,12 @@ public class UserBean implements Serializable {
     public UserDto getLoggeduser() {
         UserPojo u = loginBean.getCurrentUser();
         if (u != null)
-            return converUserPojoToUserDto(u);
+            return convertUserPojoToUserDto(u);
         else return null;
     }
 
-    private UserDto converUserPojoToUserDto(UserPojo up) {
-        UserDto ud = new UserDto(up.getUsername(), up.getPassword(), up.getImage());
+    private UserDto convertUserPojoToUserDto(UserPojo up) {
+        UserDto ud = new UserDto(up.getUsername(), up.getPassword(),up.getFirstName(), up.getLastName(), up.getCellphone(), up.getEmail(), up.getImage());
         return ud;
     }
 

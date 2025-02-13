@@ -1,6 +1,6 @@
-package aor.paj.fgomesvfortesproj2.pt.uc.dei.proj2;
+package pt.uc.dei.proj2.beans;
 
-import aor.paj.fgomesvfortesproj2.pojo.UserPojo;
+import pt.uc.dei.proj2.pojo.UserPojo;
 import jakarta.enterprise.context.SessionScoped;
 
 import java.io.Serializable;
