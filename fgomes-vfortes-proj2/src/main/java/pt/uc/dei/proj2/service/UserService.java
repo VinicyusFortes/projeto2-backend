@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 
-@Path("/user")
+@Path("/users")
 public class UserService {
   @Inject
   UserBean userbean;
@@ -25,6 +25,7 @@ public class UserService {
   @Consumes(MediaType.APPLICATION_JSON)
   public Response registerUser(UserDto user) {
     if (userbean.register(user)) {
+      System.out.println("id:" +  UserDto.getCounter());
       return Response.status(200).entity("The new user is registered").build();
     }
     return Response.status(200).entity("There is a user with the same username!").build();
@@ -53,9 +54,15 @@ public class UserService {
 
   //TODO continuar os metodos
   //R4 - Update user profile
+  @POST
+  @Path("/{username}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response atualizarPerfil(@PathParam("username") String username) {
+    return Response.status(200).entity("perfil de " + username +  (" atualizado") ).build();
+  }
+
 
   //R5 - Get user profile
-
   @GET
   @Path("/getuser")
   @Produces(MediaType.APPLICATION_JSON)

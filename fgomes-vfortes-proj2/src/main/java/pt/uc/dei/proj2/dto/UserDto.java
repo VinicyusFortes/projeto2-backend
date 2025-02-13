@@ -3,9 +3,11 @@ package pt.uc.dei.proj2.dto;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+import java.util.ArrayList;
+
 @XmlRootElement
 public class UserDto {
-  private static int counter = 1;
+  private static int counter = 0;
   private String username;
   private String password;
   private String firstName;
@@ -14,6 +16,7 @@ public class UserDto {
   private String email;
   private String image;
   private int id;
+  private ArrayList<String> idProdutos;
 
 
   public UserDto() {
@@ -30,6 +33,7 @@ public class UserDto {
     this.email = email;
     this.image = image;
     this.id = id;
+    this.idProdutos = new ArrayList<>();
   }
 
   @XmlElement
