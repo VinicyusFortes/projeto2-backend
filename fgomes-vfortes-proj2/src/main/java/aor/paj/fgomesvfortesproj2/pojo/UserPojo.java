@@ -3,13 +3,15 @@ package aor.paj.fgomesvfortesproj2.pojo;
 public class UserPojo {
   private String username;
   private String password;
+  private String image;
 
   public UserPojo() {
   }
 
-  public UserPojo(String username, String password) {
+  public UserPojo(String username, String password, String image) {
     this.username = username;
     this.password = password;
+    this.image = image;
   }
 
   public String getUsername() {
@@ -26,6 +28,14 @@ public class UserPojo {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public String getImage() {
+    return image;
+  }
+
+  public void setImage(String image) {
+    this.image = image;
   }
 }
 

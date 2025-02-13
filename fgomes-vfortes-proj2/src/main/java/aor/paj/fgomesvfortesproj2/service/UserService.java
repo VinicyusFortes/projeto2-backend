@@ -19,16 +19,18 @@ public class UserService {
   @Context
   private HttpServletRequest request;
 
+  //R3 - Register as user
   @POST
   @Path("/register")
   @Consumes(MediaType.APPLICATION_JSON)
   public Response registerUser(UserDto user) {
-    if (userbean.register(user.getUsername(), user.getPassword())) {
+    if (userbean.register(user.getUsername(), user.getPassword(), user.getImage())) {
       return Response.status(200).entity("The new user is registered").build();
     }
     return Response.status(200).entity("There is a user with the same username!").build();
   }
 
+  //R1 - Login as user
   @POST
   @Path("/login")
   @Consumes(MediaType.APPLICATION_JSON)
@@ -37,11 +39,10 @@ public class UserService {
     if (userbean.login(user.getUsername(), user.getPassword())) {
       return Response.status(200).entity("Login Successful!").build();
     }
-    System.out.println("username" +  user.getUsername());
-    System.out.println("senha" +  user.getPassword());
     return Response.status(200).entity("Wrong Username or Password !").build();
   }
 
+  //R2 - Logout as user
   @POST
   @Path("/logout")
   public Response logout() {
@@ -49,6 +50,11 @@ public class UserService {
     session.invalidate();
     return Response.status(200).entity("Logout Successful!").build();
   }
+
+  //TODO continuar os metodos
+  //R4 - Update user profile
+
+  //R5 - Get user profile
 
   @GET
   @Path("/getuser")
@@ -60,4 +66,38 @@ public class UserService {
     else
       return Response.status(200).entity("there is no user logged in at the moment!").build();
   }
+
+  //todo continuar a fazer o metodo
+  //R6 - List products of a user
+  @GET
+  @Path("/{username}/products")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response listarProdutosUser(UserDto user) {
+    if (userbean.register(user.getUsername(), user.getPassword(), user.getImage())) {
+       return Response.status(200).entity("The new user is registered").build();
+    }
+    return Response.status(200).entity("There is a user with the same username!").build();
+  }
+
+  //R8 - Add products to user products
+  @POST
+  @Path("/{username}/products")
+  public Response adicionarProduto() {
+    return Response.status(200).entity("The new user is registered").build();
+  }
+
+  //R9 Update product of user products
+  @POST
+  @Path("/{username}/products/{ProductsId}")
+  public Response atualizarProdutosUser() {
+    return Response.status(200).entity("The new user is registered").build();
+  }
+
+  //R10 Delete product of user products
+  @DELETE
+  @Path("/{username}/products/{productId}")
+  public Response apagarProdutoUser() {
+    return Response.status(200).entity("The new user is registered").build();
+  }
+
 }

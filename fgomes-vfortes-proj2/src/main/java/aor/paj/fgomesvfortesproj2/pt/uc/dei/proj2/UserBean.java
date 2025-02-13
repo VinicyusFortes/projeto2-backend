@@ -37,13 +37,13 @@ public class UserBean implements Serializable {
             return false;
     }
 
-    public boolean register(String username, String password) {
+    public boolean register(String username, String password, String image) {
         //TODO retirar
         System.out.println("Registando utilizador: " + username);
         System.out.println("password: " + password);
         UserPojo u = UserBean.getUser(username, password);
         if (u == null) {
-            u = new UserPojo(username, password);
+            u = new UserPojo(username, password, image);
             UserBean.addUser(u);
             writeIntoJsonFile();
             return true;
@@ -59,7 +59,7 @@ public class UserBean implements Serializable {
     }
 
     private UserDto converUserPojoToUserDto(UserPojo up) {
-        UserDto ud = new UserDto(up.getUsername(), up.getPassword());
+        UserDto ud = new UserDto(up.getUsername(), up.getPassword(), up.getImage());
         return ud;
     }
 
