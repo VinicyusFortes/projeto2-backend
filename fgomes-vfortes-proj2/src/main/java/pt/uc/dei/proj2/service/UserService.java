@@ -18,6 +18,8 @@ public class UserService {
 
   @Context
   private HttpServletRequest request;
+  @Inject
+  private UserBean userBean;
 
   //R3 - Register as user
   @POST
@@ -25,7 +27,7 @@ public class UserService {
   @Consumes(MediaType.APPLICATION_JSON)
   public Response registerUser(UserDto user) {
     if (userbean.register(user)) {
-      System.out.println("id:" +  UserDto.getCounter());
+      System.out.println("id:" + UserDto.getCounter());
       return Response.status(200).entity("The new user is registered").build();
     }
     return Response.status(200).entity("There is a user with the same username!").build();
@@ -47,19 +49,36 @@ public class UserService {
   @POST
   @Path("/logout")
   public Response logout() {
-    HttpSession session = request.getSession();
-    session.invalidate();
-    return Response.status(200).entity("Logout Successful!").build();
+    HttpSession session = request.getSession(); // Use false para não criar uma nova sessão
+    if (session != null) {
+      session.invalidate();
+      return Response.status(200).entity("Logout Successful!").build();
+    } else {
+      return Response.status(400).entity("R2: Erro: Não há usuário logado.").build();
+    }
   }
 
+
   //TODO continuar os metodos
-  //R4 - Update user profile
-  @POST
-  @Path("/{username}")
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response atualizarPerfil(@PathParam("username") String username) {
-    return Response.status(200).entity("perfil de " + username +  (" atualizado") ).build();
-  }
+//R4 - Update user profile
+//  @POST
+//  @Path("/{username}")  // Caminho do método
+//  @Produces(MediaType.APPLICATION_JSON)
+//  public Response atualizarPerfil(@PathParam("username") String username) {
+//    UserDto u = userbean.getLoggeduser();
+//
+//    if (u != null) { // Verifica se o usuário está logado
+//      String usernameRegistado = u.getUsername();
+//      if (username.equals(usernameRegistado)) {
+//        return Response.status(200).entity("R4. Perfil de " + username + " atualizado").build();
+//      } else {
+//        return Response.status(403).entity("Erro: Não é possível atualizar o perfil de outro usuário.").build();
+//      }
+//    } else {
+//      // O usuário não está logado, portanto, retorna erro
+//      return Response.status(400).entity("R4. Não existe utilizador logado").build();
+//    }
+//  }
 
 
   //R5 - Get user profile
@@ -81,7 +100,7 @@ public class UserService {
   @Consumes(MediaType.APPLICATION_JSON)
   public Response listarProdutosUser(UserDto user) {
     if (userbean.register(user)) {
-       return Response.status(200).entity("The new user is registered").build();
+      return Response.status(200).entity("The new user is registered").build();
     }
     return Response.status(200).entity("There is a user with the same username!").build();
   }

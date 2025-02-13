@@ -84,9 +84,10 @@ public class UserBean implements Serializable {
      */
     public UserDto getLoggeduser() {
         UserPojo u = loginBean.getCurrentUser();
-        System.out.println("id:" + u.getId());
-        if (u != null)
+        if (u != null){
+            System.out.println("id:" + u.getId());
             return convertUserPojoToUserDto(u);
+        }
         else return null;
     }
 
