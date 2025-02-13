@@ -1,13 +1,11 @@
-package aor.paj.fgomesvfortesproj2.bean;
+package aor.paj.fgomesvfortesproj2.pt.uc.dei.proj2;
 
 import aor.paj.fgomesvfortesproj2.dto.UserDto;
 import aor.paj.fgomesvfortesproj2.pojo.UserPojo;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
-import jakarta.json.bind.JsonbConfig;
 import jakarta.servlet.ServletContext;
 
 import java.io.File;
@@ -16,7 +14,6 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 @ApplicationScoped

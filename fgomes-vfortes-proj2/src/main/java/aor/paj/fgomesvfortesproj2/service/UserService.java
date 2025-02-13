@@ -1,6 +1,6 @@
 package aor.paj.fgomesvfortesproj2.service;
 
-import aor.paj.fgomesvfortesproj2.bean.UserBean;
+import aor.paj.fgomesvfortesproj2.pt.uc.dei.proj2.UserBean;
 import aor.paj.fgomesvfortesproj2.dto.UserDto;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;

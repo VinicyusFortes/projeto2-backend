@@ -1,4 +1,4 @@
-package aor.paj.fgomesvfortesproj2.bean;
+package aor.paj.fgomesvfortesproj2.pt.uc.dei.proj2;
 
 import aor.paj.fgomesvfortesproj2.pojo.UserPojo;
 import jakarta.enterprise.context.SessionScoped;
