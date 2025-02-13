@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 
-@Path("/user")
+@Path("/users")
 public class UserService {
   @Inject
   UserBean userbean;
