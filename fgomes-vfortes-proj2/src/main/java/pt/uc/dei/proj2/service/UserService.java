@@ -18,8 +18,7 @@ public class UserService {
 
   @Context
   private HttpServletRequest request;
-  @Inject
-  private UserBean userBean;
+
 
   //R1 - Login as user
   @POST
@@ -51,6 +50,8 @@ public class UserService {
   @Path("/register")
   @Consumes(MediaType.APPLICATION_JSON)
   public Response registerUser(UserDto user) {
+    System.out.println("teste");
+    System.out.println("teste");
     if (userbean.register(user)) {
       return Response.status(200).entity("R3. The new user is registered").build();
     }
