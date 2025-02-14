@@ -21,18 +21,6 @@ public class UserService {
   @Inject
   private UserBean userBean;
 
-  //R3 - Register as user
-  @POST
-  @Path("/register")
-  @Consumes(MediaType.APPLICATION_JSON)
-  public Response registerUser(UserDto user) {
-    if (userbean.register(user)) {
-      System.out.println("id:" + UserDto.getCounter());
-      return Response.status(200).entity("R3. The new user is registered").build();
-    }
-    return Response.status(200).entity("R3. There is a user with the same username!").build();
-  }
-
   //R1 - Login as user
   @POST
   @Path("/login")
@@ -40,9 +28,9 @@ public class UserService {
   @Produces(MediaType.APPLICATION_JSON)
   public Response login(UserDto user) {
     if (userbean.login(user.getUsername(), user.getPassword())) {
-      return Response.status(200).entity("R1. Login Successful!").build();
+      return Response.status(200).entity("R1. Login feito!").build();
     }
-    return Response.status(200).entity("R1. Wrong Username or Password !").build();
+    return Response.status(200).entity("R1. username e/ou password errados!").build();
   }
 
   //R2 - Logout as user
@@ -56,6 +44,18 @@ public class UserService {
     } else {
       return Response.status(400).entity("R2: Erro: Não há usuário logado.").build();
     }
+  }
+
+  //R3 - Register as user
+  @POST
+  @Path("/register")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response registerUser(UserDto user) {
+    if (userbean.register(user)) {
+      System.out.println("id:" + UserDto.getCounter());
+      return Response.status(200).entity("R3. The new user is registered").build();
+    }
+    return Response.status(200).entity("R3. There is a user with the same username!").build();
   }
 
 
