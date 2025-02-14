@@ -1,5 +1,7 @@
 package pt.uc.dei.proj2.pojo;
 
+import java.util.ArrayList;
+
 public class UserPojo {
   private String username;
   private String password;
@@ -9,11 +11,12 @@ public class UserPojo {
   private String email;
   private String image;
   private int id;
+  private ArrayList<String> idProdutos = new ArrayList<>();
 
   public UserPojo() {
   }
 //TODO: os parametros deste construtor que de coincidir com os parametros do userdto e com qualquer request que envolva criar ou atualizar utilizador no userbean.java(register() e convertUserPojoToUserDto())
-  public UserPojo(String username, String password, String firstName, String lastName, String cellphone, String email, String image, int id) {
+  public UserPojo(String username, String password, String firstName, String lastName, String cellphone, String email, String image, int id, ArrayList<String>idProdutos) {
     this.username = username;
     this.password = password;
     this.firstName = firstName;
@@ -22,6 +25,7 @@ public class UserPojo {
     this.email = email;
     this.image = image;
     this.id = id;
+    this.idProdutos = idProdutos;
   }
 
   public String getUsername() {
@@ -88,6 +92,12 @@ public class UserPojo {
     this.id = id;
   }
 
+  public ArrayList<String> getIdProdutos() {
+    return idProdutos;
+  }
 
+  public void setIdProdutos(ArrayList<String> idProdutos) {
+    this.idProdutos = idProdutos;
+  }
 }
 

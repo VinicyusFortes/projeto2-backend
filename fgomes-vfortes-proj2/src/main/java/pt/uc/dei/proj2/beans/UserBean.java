@@ -1,6 +1,7 @@
 package pt.uc.dei.proj2.beans;
 
 import pt.uc.dei.proj2.dto.UserDto;
+import pt.uc.dei.proj2.pojo.ProductPojo;
 import pt.uc.dei.proj2.pojo.UserPojo;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -27,6 +28,7 @@ public class UserBean implements Serializable {
 
     // Lista estática para armazenar os objetos UserPojo
     private static ArrayList<UserPojo> userPojos = new ArrayList<>();
+    private static ArrayList<ProductPojo> productPojos = new ArrayList<>();
 
     // Contador persistente para gerar IDs únicos de usuários
     private static int persistentCounter = 1;
@@ -70,7 +72,7 @@ public class UserBean implements Serializable {
             // Cria um novo UserPojo com o ID baseado no persistentCounter
             u = new UserPojo(user.getUsername(), user.getPassword(), user.getFirstName(),
                     user.getLastName(), user.getCellphone(), user.getEmail(),
-                    user.getImage(), ++persistentCounter);
+                    user.getImage(), ++persistentCounter, user.getIdProdutos());
             UserBean.addUser(u);
             writeIntoJsonFile(); // Persiste os dados após adicionar um novo usuário
             return true;
@@ -99,7 +101,7 @@ public class UserBean implements Serializable {
     private UserDto convertUserPojoToUserDto(UserPojo up) {
         UserDto ud = new UserDto(up.getUsername(), up.getPassword(), up.getFirstName(),
                 up.getLastName(), up.getCellphone(), up.getEmail(),
-                up.getImage(), up.getId());
+                up.getImage(), up.getId(), up.getIdProdutos());
         System.out.println("converted id" +  up.getId());
         return ud;
     }

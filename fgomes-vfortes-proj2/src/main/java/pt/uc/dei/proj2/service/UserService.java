@@ -52,7 +52,6 @@ public class UserService {
   @Consumes(MediaType.APPLICATION_JSON)
   public Response registerUser(UserDto user) {
     if (userbean.register(user)) {
-      System.out.println("id:" + UserDto.getCounter());
       return Response.status(200).entity("R3. The new user is registered").build();
     }
     return Response.status(200).entity("R3. There is a user with the same username!").build();
@@ -61,23 +60,12 @@ public class UserService {
 
   //TODO continuar os metodos
 //R4 - Update user profile
-  @POST
+  @PUT
   @Path("/{username}")  // Caminho do método
   @Produces(MediaType.APPLICATION_JSON)
   public Response atualizarPerfil(@PathParam("username") String username) {
-    UserDto u = userbean.getLoggeduser();
-
-    if (u != null) { // Verifica se o usuário está logado
-      String usernameRegistado = u.getUsername();
-      if (username.equals(usernameRegistado)) {
-        return Response.status(200).entity("R4. Perfil de " + username + " atualizado").build();
-      } else {
-        return Response.status(403).entity("R4. Erro: Não é possível atualizar o perfil de outro usuário.").build();
-      }
-    } else {
-      // O usuário não está logado, portanto, retorna erro
-      return Response.status(400).entity("R4. Não existe utilizador logado").build();
-    }
+    System.out.println("username " +  username);
+    return Response.status(200).entity("R4. Perfil de " + username + " atualizado").build();
   }
 
 
@@ -128,7 +116,7 @@ public class UserService {
   @Path("/{username}/products/{productId}")
   @Produces(MediaType.APPLICATION_JSON)
   public Response atualizarProdutosUser(@PathParam("username") String username, @PathParam("productId") String productId) {
-    return Response.status(200).entity("R9. produto adicionao ao user " + username).build();
+    return Response.status(200).entity("R9. produto do " + username + " foi atualizado").build();
   }
 
   //todo: terminar o metodo

@@ -24,7 +24,7 @@ public class UserDto {
   }
 
 
-  public UserDto(String username, String password, String firstName, String lastName, String cellphone, String email, String image, int id) {
+  public UserDto(String username, String password, String firstName, String lastName, String cellphone, String email, String image, int id, ArrayList<String> idProdutos) {
     this.username = username;
     this.password = password;
     this.firstName = firstName;
@@ -33,7 +33,7 @@ public class UserDto {
     this.email = email;
     this.image = image;
     this.id = id;
-    this.idProdutos = new ArrayList<>();
+    this.idProdutos = idProdutos;
   }
 
   @XmlElement
@@ -108,5 +108,13 @@ public class UserDto {
 
   public void setId(int id) {
     this.id = id;
+  }
+
+  public ArrayList<String> getIdProdutos() {
+    return idProdutos;
+  }
+
+  public void setIdProdutos(ArrayList<String> idProdutos) {
+    this.idProdutos = idProdutos;
   }
 }
