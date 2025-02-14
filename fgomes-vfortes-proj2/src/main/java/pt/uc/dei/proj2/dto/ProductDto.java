@@ -1,16 +1,19 @@
 package pt.uc.dei.proj2.dto;
 
+import jakarta.json.bind.annotation.JsonbDateFormat;
 import pt.uc.dei.proj2.utils.State;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class ProductDto {
-  private static int counter = 0;
+  private  int counter = 0;
   private int idProduto;
   private String titulo;
   private String descricao;
   private String localizacao;
-  private Date data;
+  @JsonbDateFormat("yyyy-MM-dd") // Exemplo: 2024-02-14
+  private LocalDate data;
   private String anuncianteId;
   private String categoria;
   private double preco;
@@ -21,7 +24,7 @@ public class ProductDto {
     this.idProduto = counter++;
   }
 
-  public ProductDto(int idProduto, String titulo, String descricao, String localizacao, Date data, String anuncianteId, String categoria, double preco, String imagemProduto, State stateId) {
+  public ProductDto(int idProduto, String titulo, String descricao, String localizacao, LocalDate data, String anuncianteId, String categoria, double preco, String imagemProduto, State stateId) {
     this.idProduto = idProduto;
     this.titulo = titulo;
     this.descricao = descricao;
@@ -66,11 +69,11 @@ public class ProductDto {
     this.localizacao = localizacao;
   }
 
-  public Date getData() {
+  public LocalDate getData() {
     return data;
   }
 
-  public void setData(Date data) {
+  public void setData(LocalDate data) {
     this.data = data;
   }
 
@@ -106,12 +109,12 @@ public class ProductDto {
     this.imagemProduto = imagemProduto;
   }
 
-  public static int getCounter() {
+  public int getCounter() {
     return counter;
   }
 
-  public static void setCounter(int counter) {
-    ProductDto.counter = counter;
+  public void setCounter(int counter) {
+    counter = counter;
   }
 
   public State getStateId() {

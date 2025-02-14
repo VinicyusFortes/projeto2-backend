@@ -1,7 +1,11 @@
 package pt.uc.dei.proj2.pojo;
 
+import jakarta.json.bind.annotation.JsonbDateFormat;
+import pt.uc.dei.proj2.beans.UtilityBean;
 import pt.uc.dei.proj2.utils.State;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ProductPojo {
@@ -9,15 +13,14 @@ public class ProductPojo {
   private String titulo;
   private String descricao;
   private String localizacao;
-  private Date data;
+  private LocalDate data;
   private String anuncianteId;
   private String categoria;
   private double preco;
   private String imagemProduto;
   private State stateId;
 
-
-  public ProductPojo(int idProduto, String titulo, String descricao, String localizacao, Date data, String anuncianteId, String categoria, double preco, String imagemProduto, State stateId) {
+  public ProductPojo(int idProduto, String titulo, String descricao, String localizacao, LocalDate data, String anuncianteId, String categoria, double preco, String imagemProduto, State stateId) {
     this.idProduto = idProduto;
     this.titulo = titulo;
     this.descricao = descricao;
@@ -62,11 +65,11 @@ public class ProductPojo {
     this.localizacao = localizacao;
   }
 
-  public Date getData() {
+  public LocalDate getData() {
     return data;
   }
 
-  public void setData(Date data) {
+  public void setData(LocalDate data) {
     this.data = data;
   }
 

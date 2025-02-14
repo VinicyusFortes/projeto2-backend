@@ -1,6 +1,7 @@
 package pt.uc.dei.proj2.beans;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import pt.uc.dei.proj2.dto.ProductDto;
 import pt.uc.dei.proj2.pojo.ProductPojo;
 
@@ -9,8 +10,20 @@ import java.util.ArrayList;
 
 @ApplicationScoped
 public class ProductBean implements Serializable {
-  private static ArrayList<ProductPojo> productPojos = new ArrayList<>();
-  private static int persistentCounter = 1;
+  ArrayList<ProductPojo> productPojos = new ArrayList<>();
+  int persistentCounter = 1;
+
+  @Inject
+  private UtilityBean utilityBean;
+
+
+  public ProductBean(UtilityBean utilityBean) {
+    this.utilityBean = utilityBean;
+  }
+
+  public ProductBean() {
+
+  }
 
 
   private ProductDto convertProductPojoToProductDto(ProductPojo pp) {
@@ -18,10 +31,18 @@ public class ProductBean implements Serializable {
     return pd;
   }
 
-  private void adicionarProduto() {
-    //acessar o json
+  public boolean adicionarProdutoAoArray(ProductDto produto) {
+    ProductPojo p = new ProductPojo(produto.getIdProduto(), produto.getTitulo(), produto.getDescricao(), produto.getLocalizacao(), produto.getData(), produto.getAnuncianteId(), produto.getCategoria(), produto.getPreco(), produto.getImagemProduto(), produto.getStateId());
+
+    System.out.println("tentativa de criar produto");
+
+    productPojos.add(p);
+    System.out.println("vou tentar escrever no ficheiro");
+    utilityBean.writeIntoJsonFile();
+
+    System.out.println("produto " + p.getTitulo() +  " criado");
+
+    return true;
   }
-
-
 
 }

@@ -1,7 +1,9 @@
 package pt.uc.dei.proj2.service;
 
+import pt.uc.dei.proj2.beans.ProductBean;
 import pt.uc.dei.proj2.beans.UserBean;
 import pt.uc.dei.proj2.beans.UtilityBean;
+import pt.uc.dei.proj2.dto.ProductDto;
 import pt.uc.dei.proj2.dto.UserDto;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,8 +12,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import java.util.ArrayList;
 
 
 @Path("/users")
@@ -23,6 +23,8 @@ public class UserService {
   private HttpServletRequest request;
   @Inject
   private UtilityBean utilityBean;
+  @Inject
+  private ProductBean productBean;
 
 
   //R1 - Login as user
@@ -55,8 +57,6 @@ public class UserService {
   @Path("/register")
   @Consumes(MediaType.APPLICATION_JSON)
   public Response registerUser(UserDto user) {
-    System.out.println("teste");
-    System.out.println("teste");
     if (userbean.register(user)) {
       return Response.status(200).entity("R3. The new user is registered").build();
     }
@@ -103,6 +103,7 @@ public class UserService {
   public Response listarProdutosUser(@PathParam("username") String username) {
     UserDto u = userbean.getLoggeduser();
     if (u != null) {
+
       return Response.status(200).entity("R6. listando os produtos do user" + username).build();
     }
     return Response.status(200).entity("R6. nao há produtos para este user").build();
@@ -114,9 +115,12 @@ public class UserService {
   @POST
   @Path("/{username}/products")
   @Produces(MediaType.APPLICATION_JSON)
-  public Response adicionarProduto(@PathParam("username") String username) {
+  public Response adicionarProduto(@PathParam("username") String username, ProductDto produto) {
     UserDto u = userbean.getLoggeduser();
+
     if(u != null) {
+      productBean.adicionarProdutoAoArray(produto);
+
       return Response.status(200).entity("R8. produto adicionado ao user " + username).build();
     } else {
       return Response.status(400).entity("R8. sem utilzador logado").build();

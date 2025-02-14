@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
+import pt.uc.dei.proj2.pojo.ProductPojo;
 import pt.uc.dei.proj2.pojo.UserPojo;
 
 import java.io.File;
@@ -13,6 +14,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
+import static pt.uc.dei.proj2.beans.UtilityBean.persistentCounter;
+import static pt.uc.dei.proj2.beans.ProductBean.productPojos;
+
+
 /**
  * Escreve os dados dos usuários e o contador persistente em um arquivo JSON.
  * Esta função salva tanto a lista de usuários quanto o valor atual do contador.
@@ -21,10 +26,11 @@ import java.util.ArrayList;
 public class UtilityBean implements Serializable {
 
   // Lista estática para armazenar os objetos UserPojo
-  private  ArrayList<UserPojo> userPojos = new ArrayList<>();
+ /* private  ArrayList<UserPojo> userPojos = new ArrayList<>();
+  private  ArrayList<ProductPojo> productPojos = new ArrayList<>();*/
 
   // Contador persistente para gerar IDs únicos de usuários
-  private  int persistentCounter = 1;
+  /*private  int persistentCounter = 1;*/
 
   public UtilityBean() {
   }
@@ -44,7 +50,8 @@ public class UtilityBean implements Serializable {
       Files.createDirectories(directoryPath);
 
       // Prepara os dados para serem escritos
-      PersistedData data = new PersistedData(userPojos, persistentCounter);
+      PersistedData data = new PersistedData(getUserPojos(), getPersistentCounter(), productPojos);
+
 
       // Serializa os dados para uma string JSON
       String jsonContent = jsonb.toJson(data);
@@ -84,15 +91,16 @@ public class UtilityBean implements Serializable {
 
         if (!content.trim().isEmpty()) {
           PersistedData data = jsonb.fromJson(content, PersistedData.class);
-          userPojos = data.users;
-          persistentCounter = data.counter;
-          //productPojos= data.products;
+          this.userPojos = data.users;
+          this.persistentCounter = data.counter;
+          this.productPojos = data.products;
+
 
           System.out.println("Usuários e contador carregados do JSON com sucesso!");
-          System.out.println(userPojos.toString());
+          System.out.println(getUserPojos().toString());
         } else {
           System.out.println("O arquivo JSON está vazio. Iniciando com uma lista vazia.");
-          userPojos = new ArrayList<>();
+          getUserPojos() = new ArrayList<>();
           persistentCounter = 0;
         }
 
@@ -102,8 +110,11 @@ public class UtilityBean implements Serializable {
       }
     } else {
       System.out.println("Arquivo JSON não encontrado. Iniciando com uma lista vazia.");
-      userPojos = new ArrayList<>();
-      persistentCounter = 0;
+      ArrayList <UserPojo> userPojos = new ArrayList<UserPojo>();
+      ArrayList<ProductPojo> productPojos = new ArrayList<>();
+      int persistentCounter = 1;
+
+
     }
   }
 
@@ -115,7 +126,9 @@ public class UtilityBean implements Serializable {
     userPojos = userPojos;
   }
 
+
   public  int getPersistentCounter() {
+
     return persistentCounter;
   }
 
@@ -125,12 +138,15 @@ public class UtilityBean implements Serializable {
 
 
 
+
+
   /**
    * Classe interna para representar os dados persistidos.
    * Esta classe é usada para serializar e desserializar os dados para/do arquivo JSON.
    */
-  public static class PersistedData implements Serializable {
+  public class PersistedData implements Serializable {
     public ArrayList<UserPojo> users;
+    public ArrayList<ProductPojo> products;
     public int counter;
 
     public int getCounter() {
@@ -141,11 +157,28 @@ public class UtilityBean implements Serializable {
       this.counter = counter;
     }
 
+    public ArrayList<UserPojo> getUsers() {
+      return users;
+    }
+
+    public void setUsers(ArrayList<UserPojo> users) {
+      this.users = users;
+    }
+
+    public ArrayList<ProductPojo> getProducts() {
+      return products;
+    }
+
+    public void setProducts(ArrayList<ProductPojo> products) {
+      this.products = products;
+    }
+
     public PersistedData() {}
 
-    public PersistedData(ArrayList<UserPojo> users, int counter) {
+    public PersistedData(ArrayList<UserPojo> users, int counter, ArrayList<ProductPojo> products) {
       this.users = users;
       this.counter = counter;
+      this.products = products;
     }
   }
 }
