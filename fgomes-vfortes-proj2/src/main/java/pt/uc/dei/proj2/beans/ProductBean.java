@@ -18,6 +18,10 @@ public class ProductBean implements Serializable {
     return pd;
   }
 
+  private void adicionarProduto() {
+    //acessar o json
+  }
+
 
 
 }

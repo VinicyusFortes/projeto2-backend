@@ -1,6 +1,7 @@
 package pt.uc.dei.proj2.service;
 
 import pt.uc.dei.proj2.beans.UserBean;
+import pt.uc.dei.proj2.beans.UtilityBean;
 import pt.uc.dei.proj2.dto.UserDto;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,6 +11,8 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.util.ArrayList;
+
 
 @Path("/users")
 public class UserService {
@@ -18,6 +21,8 @@ public class UserService {
 
   @Context
   private HttpServletRequest request;
+  @Inject
+  private UtilityBean utilityBean;
 
 
   //R1 - Login as user
@@ -80,6 +85,14 @@ public class UserService {
       return Response.status(200).entity(userbean.getLoggeduser()).build();
     else
       return Response.status(200).entity("R5. there is no user logged in at the moment!").build();
+  }
+
+  @GET
+  @Path("/allusers")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getAllUsers() {
+    utilityBean.loadDataFromJson();
+    return Response.status(200).entity("zabszbasidjeasd").build();
   }
 
   //todo continuar a fazer o metodo

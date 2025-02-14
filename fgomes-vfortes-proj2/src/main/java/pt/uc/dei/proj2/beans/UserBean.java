@@ -37,7 +37,12 @@ public class UserBean implements Serializable {
      * Construtor da classe UserBean.
      * Inicializa o bean carregando os usuários do arquivo JSON.
      */
+    public UserBean(UtilityBean utilityBean) {
+        utilityBean.loadDataFromJson();
+    }
+
     public UserBean() {
+
     }
 
     /**

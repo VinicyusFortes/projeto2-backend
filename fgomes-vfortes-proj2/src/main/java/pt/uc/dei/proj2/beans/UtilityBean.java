@@ -17,8 +17,9 @@ import java.util.ArrayList;
  * Escreve os dados dos usuários e o contador persistente em um arquivo JSON.
  * Esta função salva tanto a lista de usuários quanto o valor atual do contador.
  */
-@SessionScoped
+@ApplicationScoped
 public class UtilityBean implements Serializable {
+
   // Lista estática para armazenar os objetos UserPojo
   private  ArrayList<UserPojo> userPojos = new ArrayList<>();
 
@@ -29,7 +30,6 @@ public class UtilityBean implements Serializable {
   }
 
   public void writeIntoJsonFile() {
-
 
     Jsonb jsonb = JsonbBuilder.create();
 
@@ -86,6 +86,7 @@ public class UtilityBean implements Serializable {
           PersistedData data = jsonb.fromJson(content, PersistedData.class);
           userPojos = data.users;
           persistentCounter = data.counter;
+          //productPojos= data.products;
 
           System.out.println("Usuários e contador carregados do JSON com sucesso!");
           System.out.println(userPojos.toString());
