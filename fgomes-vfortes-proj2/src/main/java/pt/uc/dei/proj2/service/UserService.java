@@ -28,9 +28,9 @@ public class UserService {
   public Response registerUser(UserDto user) {
     if (userbean.register(user)) {
       System.out.println("id:" + UserDto.getCounter());
-      return Response.status(200).entity("The new user is registered").build();
+      return Response.status(200).entity("R3. The new user is registered").build();
     }
-    return Response.status(200).entity("There is a user with the same username!").build();
+    return Response.status(200).entity("R3. There is a user with the same username!").build();
   }
 
   //R1 - Login as user
@@ -40,9 +40,9 @@ public class UserService {
   @Produces(MediaType.APPLICATION_JSON)
   public Response login(UserDto user) {
     if (userbean.login(user.getUsername(), user.getPassword())) {
-      return Response.status(200).entity("Login Successful!").build();
+      return Response.status(200).entity("R1. Login Successful!").build();
     }
-    return Response.status(200).entity("Wrong Username or Password !").build();
+    return Response.status(200).entity("R1. Wrong Username or Password !").build();
   }
 
   //R2 - Logout as user
@@ -52,7 +52,7 @@ public class UserService {
     HttpSession session = request.getSession(); // Use false para não criar uma nova sessão
     if (session != null) {
       session.invalidate();
-      return Response.status(200).entity("Logout Successful!").build();
+      return Response.status(200).entity("R2: Logout Successful!").build();
     } else {
       return Response.status(400).entity("R2: Erro: Não há usuário logado.").build();
     }
@@ -61,24 +61,24 @@ public class UserService {
 
   //TODO continuar os metodos
 //R4 - Update user profile
-//  @POST
-//  @Path("/{username}")  // Caminho do método
-//  @Produces(MediaType.APPLICATION_JSON)
-//  public Response atualizarPerfil(@PathParam("username") String username) {
-//    UserDto u = userbean.getLoggeduser();
-//
-//    if (u != null) { // Verifica se o usuário está logado
-//      String usernameRegistado = u.getUsername();
-//      if (username.equals(usernameRegistado)) {
-//        return Response.status(200).entity("R4. Perfil de " + username + " atualizado").build();
-//      } else {
-//        return Response.status(403).entity("Erro: Não é possível atualizar o perfil de outro usuário.").build();
-//      }
-//    } else {
-//      // O usuário não está logado, portanto, retorna erro
-//      return Response.status(400).entity("R4. Não existe utilizador logado").build();
-//    }
-//  }
+  @POST
+  @Path("/{username}")  // Caminho do método
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response atualizarPerfil(@PathParam("username") String username) {
+    UserDto u = userbean.getLoggeduser();
+
+    if (u != null) { // Verifica se o usuário está logado
+      String usernameRegistado = u.getUsername();
+      if (username.equals(usernameRegistado)) {
+        return Response.status(200).entity("R4. Perfil de " + username + " atualizado").build();
+      } else {
+        return Response.status(403).entity("R4. Erro: Não é possível atualizar o perfil de outro usuário.").build();
+      }
+    } else {
+      // O usuário não está logado, portanto, retorna erro
+      return Response.status(400).entity("R4. Não existe utilizador logado").build();
+    }
+  }
 
 
   //R5 - Get user profile
@@ -90,40 +90,55 @@ public class UserService {
     if (u != null)
       return Response.status(200).entity(userbean.getLoggeduser()).build();
     else
-      return Response.status(200).entity("there is no user logged in at the moment!").build();
+      return Response.status(200).entity("R5. there is no user logged in at the moment!").build();
   }
 
   //todo continuar a fazer o metodo
   //R6 - List products of a user
   @GET
   @Path("/{username}/products")
-  @Consumes(MediaType.APPLICATION_JSON)
-  public Response listarProdutosUser(UserDto user) {
-    if (userbean.register(user)) {
-      return Response.status(200).entity("The new user is registered").build();
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response listarProdutosUser(@PathParam("username") String username) {
+    UserDto u = userbean.getLoggeduser();
+    if (u != null) {
+      return Response.status(200).entity("R6. listando os produtos do user" + username).build();
     }
-    return Response.status(200).entity("There is a user with the same username!").build();
+    return Response.status(200).entity("R6. nao há produtos para este user").build();
   }
 
+
+  //todo: terminar o metodo
   //R8 - Add products to user products
   @POST
   @Path("/{username}/products")
-  public Response adicionarProduto() {
-    return Response.status(200).entity("The new user is registered").build();
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response adicionarProduto(@PathParam("username") String username) {
+    UserDto u = userbean.getLoggeduser();
+    if(u != null) {
+      return Response.status(200).entity("R8. produto adicionado ao user " + username).build();
+    } else {
+      return Response.status(400).entity("R8. sem utilzador logado").build();
+    }
   }
 
+
+  //todo: terminar o metodo
   //R9 Update product of user products
   @POST
-  @Path("/{username}/products/{ProductsId}")
-  public Response atualizarProdutosUser() {
-    return Response.status(200).entity("The new user is registered").build();
+  @Path("/{username}/products/{productId}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response atualizarProdutosUser(@PathParam("username") String username, @PathParam("productId") String productId) {
+    return Response.status(200).entity("R9. produto adicionao ao user " + username).build();
   }
 
+  //todo: terminar o metodo
   //R10 Delete product of user products
   @DELETE
   @Path("/{username}/products/{productId}")
-  public Response apagarProdutoUser() {
-    return Response.status(200).entity("The new user is registered").build();
+  public Response apagarProdutoUser(@PathParam("username") String username, @PathParam("productId") String productId) {
+    System.out.println("username " + username);
+    System.out.println("productId " + productId);
+    return Response.status(200).entity("R10. artigo " + productId + " deletado").build();
   }
 
 }

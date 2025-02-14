@@ -18,15 +18,13 @@ public class ProductService {
   @Context
   private HttpServletRequest request;
 
-
+  //todo: terminar metodo
   //R7 - List all products
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response listarTodosProdutos(UserDto user) {
-    if (userbean.register(user)) {
-      return Response.status(200).entity("The new user is registered").build();
-    }
-    return Response.status(200).entity("There is a user with the same username!").build();
+  public Response listarTodosProdutos() {
+    return Response.status(200).entity("R7. listando produtos").build();
+
   }
 
 
