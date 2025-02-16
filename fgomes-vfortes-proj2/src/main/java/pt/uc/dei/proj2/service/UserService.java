@@ -1,8 +1,11 @@
 package pt.uc.dei.proj2.service;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import pt.uc.dei.proj2.beans.ProductBean;
 import pt.uc.dei.proj2.beans.UserBean;
 import pt.uc.dei.proj2.beans.UtilityBean;
+import pt.uc.dei.proj2.dto.MessageDTO;
 import pt.uc.dei.proj2.dto.ProductDto;
 import pt.uc.dei.proj2.dto.UserDto;
 import jakarta.inject.Inject;
@@ -34,7 +37,15 @@ public class UserService {
   @Produces(MediaType.APPLICATION_JSON)
   public Response login(UserDto user) {
     if (userbean.login(user.getUsername(), user.getPassword())) {
-      return Response.status(200).entity("R1. Login feito!").build();
+      String message = "R1. Login feito!";
+      UserDto u = userbean.getLoggeduser();
+      JsonObject loggedUser = Json.createObjectBuilder()
+              .add("id", u.getId())
+              .add("username", u.getUsername()).build();
+
+      MessageDTO messageDTO = new MessageDTO(message, loggedUser);
+
+      return Response.status(200).entity(messageDTO).build();
     }
     return Response.status(200).entity("R1. username e/ou password errados!").build();
   }

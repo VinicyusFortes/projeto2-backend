@@ -17,6 +17,7 @@ public class UserDto {
   private String image;
   private int id;
   private ArrayList<String> idProdutos;
+  private String mensagemLogin;
 
 
   public UserDto() {
@@ -116,5 +117,13 @@ public class UserDto {
 
   public void setIdProdutos(ArrayList<String> idProdutos) {
     this.idProdutos = idProdutos;
+  }
+
+  public String getMensagemLogin() {
+    return mensagemLogin;
+  }
+
+  public void setMensagemLogin(String mensagemLogin) {
+    this.mensagemLogin = mensagemLogin;
   }
 }
