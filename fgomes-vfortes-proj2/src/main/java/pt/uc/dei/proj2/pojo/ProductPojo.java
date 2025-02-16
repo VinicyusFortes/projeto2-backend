@@ -1,12 +1,8 @@
 package pt.uc.dei.proj2.pojo;
 
-import jakarta.json.bind.annotation.JsonbDateFormat;
-import pt.uc.dei.proj2.beans.UtilityBean;
 import pt.uc.dei.proj2.utils.State;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
 
 public class ProductPojo {
   private int idProduto;
@@ -14,13 +10,17 @@ public class ProductPojo {
   private String descricao;
   private String localizacao;
   private LocalDate data;
-  private String anuncianteId;
+  private int anuncianteId;
   private String categoria;
   private double preco;
   private String imagemProduto;
   private State stateId;
 
-  public ProductPojo(int idProduto, String titulo, String descricao, String localizacao, LocalDate data, String anuncianteId, String categoria, double preco, String imagemProduto, State stateId) {
+  public ProductPojo(){
+
+  }
+
+  public ProductPojo(int idProduto, String titulo, String descricao, String localizacao, LocalDate data, int anuncianteId, String categoria, double preco, String imagemProduto, State stateId) {
     this.idProduto = idProduto;
     this.titulo = titulo;
     this.descricao = descricao;
@@ -73,11 +73,11 @@ public class ProductPojo {
     this.data = data;
   }
 
-  public String getAnuncianteId() {
+  public int getAnuncianteId() {
     return anuncianteId;
   }
 
-  public void setAnuncianteId(String anuncianteId) {
+  public void setAnuncianteId(int anuncianteId) {
     this.anuncianteId = anuncianteId;
   }
 

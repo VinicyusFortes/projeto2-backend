@@ -1,6 +1,7 @@
 package pt.uc.dei.proj2.pojo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserPojo {
   private String username;
@@ -8,6 +9,12 @@ public class UserPojo {
   private String firstName;
   private String lastName;
   private String cellphone;
+  private final List<ProductPojo> productPojosList = new ArrayList<>();
+
+  public List<ProductPojo> getProductPojosList() {
+    return productPojosList;
+  }
+
   private String email;
   private String image;
   private int id;

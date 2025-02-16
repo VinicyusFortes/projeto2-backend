@@ -21,7 +21,7 @@ public class UserDto {
 
 
   public UserDto() {
-    this.id = counter++;
+    this.id = ++counter;
   }
 
 

@@ -14,17 +14,17 @@ public class ProductDto {
   private String localizacao;
   @JsonbDateFormat("yyyy-MM-dd") // Exemplo: 2024-02-14
   private LocalDate data;
-  private String anuncianteId;
+  private int anuncianteId;
   private String categoria;
   private double preco;
   private String imagemProduto;
   private State stateId;
 
   public ProductDto() {
-    this.idProduto = counter++;
+    this.idProduto = ++counter;
   }
 
-  public ProductDto(int idProduto, String titulo, String descricao, String localizacao, LocalDate data, String anuncianteId, String categoria, double preco, String imagemProduto, State stateId) {
+  public ProductDto(int idProduto, String titulo, String descricao, String localizacao, LocalDate data, int anuncianteId, String categoria, double preco, String imagemProduto, State stateId) {
     this.idProduto = idProduto;
     this.titulo = titulo;
     this.descricao = descricao;
@@ -77,11 +77,11 @@ public class ProductDto {
     this.data = data;
   }
 
-  public String getAnuncianteId() {
+  public int getAnuncianteId() {
     return anuncianteId;
   }
 
-  public void setAnuncianteId(String anuncianteId) {
+  public void setAnuncianteId(int anuncianteId) {
     this.anuncianteId = anuncianteId;
   }
 

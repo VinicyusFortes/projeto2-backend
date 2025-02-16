@@ -23,7 +23,16 @@ public class PersistedData implements Serializable {
     public PersistedData(ArrayList<UserPojo> users, int counter, ArrayList<ProductPojo> products) {
         this.users = users;
         this.counter = counter;
-        this.products = products;
+
+        for(ProductPojo productPojo : products){
+            int id = productPojo.getAnuncianteId();
+            for(UserPojo userPojo : users){
+                if(userPojo.getId() == id){
+                    userPojo.getProductPojosList().add(productPojo);
+                    break;
+                }
+            }
+        }
     }
 
     // Sem alterações nos getters e setters

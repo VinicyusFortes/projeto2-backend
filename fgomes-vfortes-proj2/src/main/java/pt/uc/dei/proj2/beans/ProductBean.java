@@ -6,6 +6,7 @@ import jakarta.inject.Inject;
 import pt.uc.dei.proj2.dto.ProductDto;
 import pt.uc.dei.proj2.pojo.ProductPojo;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -18,18 +19,22 @@ public class ProductBean implements Serializable {
   @Inject
   private UtilityBean utilityBean;
 
+  @Inject
+  private UserBean userBean;
+
   //Você pode remover o construtor sem argumentos se não for necessário
   public ProductBean() {
   }
 
-  public boolean adicionarProdutoAoArray(ProductDto produto) {
-    ProductPojo p = new ProductPojo(produto.getIdProduto(), produto.getTitulo(), produto.getDescricao(), produto.getLocalizacao(), produto.getData(), produto.getAnuncianteId(), produto.getCategoria(), produto.getPreco(), produto.getImagemProduto(), produto.getStateId());
-    System.out.println("tentativa de criar produto");
-    productPojos.add(p);
-    System.out.println("vou tentar escrever no ficheiro");
-    utilityBean.writeIntoJsonFile();
+  public void adicionarProdutoAoUtilizador(ProductDto produto) {
+    ProductPojo p = new ProductPojo(produto.getIdProduto(), produto.getTitulo(), produto.getDescricao(), produto.getLocalizacao(), produto.getData(), userBean.getLoggeduser().getId(), produto.getCategoria(), produto.getPreco(), produto.getImagemProduto(), produto.getStateId());
+    try{
+      productPojos.add(p);
+      utilityBean.writeIntoJsonFile();
+    } catch(Exception e){
+      e.printStackTrace();
+    }
     System.out.println("produto " + p.getTitulo() + " criado");
-    return true;
   }
 
   public ArrayList<ProductPojo> getProductPojos() {
