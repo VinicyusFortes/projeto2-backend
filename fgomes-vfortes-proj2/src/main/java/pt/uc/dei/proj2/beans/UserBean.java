@@ -38,7 +38,6 @@ public class UserBean implements Serializable {
         if (u == null) {
             int newId = utilityBean.getUserPojos().size() + 1;
 
-//            int counter = utilityBean.getPersistentCounter();
             u = new UserPojo(user.getUsername(), user.getPassword(), user.getFirstName(),
                     user.getLastName(), user.getCellphone(), user.getEmail(),
                     user.getImage(), newId, user.getProdutos());

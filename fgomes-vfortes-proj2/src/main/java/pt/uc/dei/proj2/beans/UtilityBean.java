@@ -25,7 +25,7 @@ public class UtilityBean implements Serializable {
     private ArrayList<ProductPojo> productPojos = new ArrayList<>();
 
     // Removido o static
-    private int persistentCounter = 1;
+//    private int persistentCounter = 1;
 
     public UtilityBean() {
 
@@ -39,7 +39,7 @@ public class UtilityBean implements Serializable {
             System.out.println("Iniciando escrita no arquivo: " + fPath);
 
             Files.createDirectories(directoryPath);
-            PersistedData data = new PersistedData(getUserPojos(), getPersistentCounter(), productBean.getProductPojos());
+            PersistedData data = new PersistedData(getUserPojos(), productBean.getProductPojos());
             String jsonContent = jsonb.toJson(data);
             Files.writeString(fPath, jsonContent);
             String writtenContent = Files.readString(fPath);
@@ -65,14 +65,12 @@ public class UtilityBean implements Serializable {
                 if (!content.trim().isEmpty()) {
                     PersistedData data = jsonb.fromJson(content, PersistedData.class);
                     this.userPojos = data.getUsers();
-                    this.persistentCounter = data.getCounter();
                     this.productPojos = data.getProducts();
                     System.out.println("Usuários e contador carregados do JSON com sucesso!");
                     System.out.println(getUserPojos().toString());
                 } else {
                     System.out.println("O arquivo JSON está vazio. Iniciando com uma lista vazia.");
                     userPojos = new ArrayList<>();
-                    persistentCounter = 0;
                 }
             } catch (Exception e) {
                 throw new RuntimeException("Erro ao ler o arquivo JSON", e);
@@ -81,7 +79,6 @@ public class UtilityBean implements Serializable {
             System.out.println("Arquivo JSON não encontrado. Iniciando com uma lista vazia.");
             userPojos = new ArrayList<>();
             productPojos = new ArrayList<>();
-            persistentCounter = 1;
         }
     }
 
@@ -91,14 +88,6 @@ public class UtilityBean implements Serializable {
 
     public void setUserPojos(ArrayList<UserPojo> userPojos) {
         this.userPojos = userPojos;
-    }
-
-    public int getPersistentCounter() {
-        return persistentCounter;
-    }
-
-    public void setPersistentCounter(int persistentCounter) {
-        this.persistentCounter = persistentCounter;
     }
 
     public ArrayList<ProductPojo> getProductPojos() {

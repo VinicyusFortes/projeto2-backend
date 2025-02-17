@@ -14,7 +14,6 @@ import java.util.ArrayList;
 public class ProductBean implements Serializable {
 
   private ArrayList<ProductPojo> productPojos = new ArrayList<>();
-  private int persistentCounter = 1;
 
   @Inject
   private UtilityBean utilityBean;
@@ -45,13 +44,7 @@ public class ProductBean implements Serializable {
     this.productPojos = productPojos;
   }
 
-  public int getPersistentCounter() {
-    return persistentCounter;
-  }
 
-  public void setPersistentCounter(int persistentCounter) {
-    this.persistentCounter = persistentCounter;
-  }
 
   private ProductDto convertProductPojoToProductDto(ProductPojo pp) {
     ProductDto pd = new ProductDto(pp.getTitulo(), pp.getDescricao(), pp.getLocalizacao(), pp.getData(), pp.getAnuncianteId(), pp.getCategoria(), pp.getPreco(), pp.getImagemProduto(), pp.getStateId());

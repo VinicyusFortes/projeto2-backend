@@ -20,7 +20,7 @@ public class PersistedData implements Serializable {
     }
 
     // Sem alterações no construtor com parâmetros
-    public PersistedData(ArrayList<UserPojo> users, int counter, ArrayList<ProductPojo> products) {
+    public PersistedData(ArrayList<UserPojo> users, ArrayList<ProductPojo> products) {
         this.users = users;
         this.counter = counter;
 
