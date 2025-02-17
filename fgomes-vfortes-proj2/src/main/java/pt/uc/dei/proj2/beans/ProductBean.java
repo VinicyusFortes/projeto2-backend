@@ -1,9 +1,11 @@
 // ProductBean.java
 package pt.uc.dei.proj2.beans;
 
+import com.sun.tools.jconsole.JConsoleContext;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import pt.uc.dei.proj2.dto.ProductDto;
+import pt.uc.dei.proj2.dto.UserDto;
 import pt.uc.dei.proj2.pojo.ProductPojo;
 
 import java.io.IOException;
@@ -56,5 +58,14 @@ public class ProductBean implements Serializable {
   private ProductDto convertProductPojoToProductDto(ProductPojo pp) {
     ProductDto pd = new ProductDto(pp.getIdProduto(), pp.getTitulo(), pp.getDescricao(), pp.getLocalizacao(), pp.getData(), pp.getAnuncianteId(), pp.getCategoria(), pp.getPreco(), pp.getImagemProduto(), pp.getStateId());
     return pd;
+  }
+
+  public ArrayList<ProductPojo> getAllProducts() {
+    ArrayList<ProductPojo> products = new ArrayList<>();
+
+    for(int i = 0; i < this.productPojos.size(); i++) {
+      products.add(productPojos.get(i));
+    }
+    return products;
   }
 }
