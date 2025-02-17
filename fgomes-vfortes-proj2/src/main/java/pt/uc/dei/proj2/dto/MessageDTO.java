@@ -2,6 +2,10 @@ package pt.uc.dei.proj2.dto;
 
 import jakarta.json.JsonObject;
 
+/**
+* Esta classe serve para criar um DTO chamado message por exemplo, que será usado para inserir as mensagens de resposta aos pedidos
+ **/
+
 public class MessageDTO {
     private String message;
     private JsonObject json;
