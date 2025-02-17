@@ -73,4 +73,42 @@ public class UserBean implements Serializable {
     public void addUser(UserPojo u) {
         utilityBean.getUserPojos().add(u);
     }
+
+    public boolean updateUser(String username, UserDto updatedUser) {
+        UserPojo user = utilityBean.getUserByUsername(username);
+        if (user == null) {
+            return false; // Usuário não encontrado
+        }
+
+        System.out.println("FirstName recebido no updateUser: " + updatedUser.getFirstName());
+
+        // Atualiza apenas os campos preenchidos (não sobrescreve com null)
+        if (updatedUser.getFirstName() != null) {
+            user.setFirstName(updatedUser.getFirstName());
+        }
+        if (updatedUser.getLastName() != null) {
+            user.setLastName(updatedUser.getLastName());
+        }
+        if (updatedUser.getEmail() != null) {
+            user.setEmail(updatedUser.getEmail());
+        }
+        if (updatedUser.getCellphone() != null) {
+            user.setCellphone(updatedUser.getCellphone());
+        }
+        if (updatedUser.getImage() != null) {
+            user.setImage(updatedUser.getImage());
+        }
+        if (updatedUser.getPassword() != null) {
+            user.setPassword(updatedUser.getPassword());
+        }
+
+        utilityBean.saveUserChanges(user); // Salva as alterações
+
+        return true;
+    }
+
+
+
+
+
 }

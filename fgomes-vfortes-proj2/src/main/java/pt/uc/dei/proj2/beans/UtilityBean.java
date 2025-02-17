@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
+import pt.uc.dei.proj2.dto.UserDto;
 import pt.uc.dei.proj2.pojo.ProductPojo;
 import pt.uc.dei.proj2.pojo.UserPojo;
 
@@ -108,4 +109,26 @@ public class UtilityBean implements Serializable {
     public void setProductPojos(ArrayList<ProductPojo> productPojos) {
         this.productPojos = productPojos;
     }
+
+    public UserPojo getUserByUsername(String username) {
+        for (UserPojo user : userPojos) {
+            if (user.getUsername().equalsIgnoreCase(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public void saveUserChanges(UserPojo updatedUser) {
+        for (int i = 0; i < userPojos.size(); i++) {
+            if (userPojos.get(i).getUsername().equalsIgnoreCase(updatedUser.getUsername())) {
+                userPojos.set(i, updatedUser);
+                break;
+            }
+        }
+        writeIntoJsonFile(); // Salva as alterações no arquivo JSON
+    }
+
+
+
 }

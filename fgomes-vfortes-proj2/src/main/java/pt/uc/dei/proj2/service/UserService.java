@@ -79,13 +79,24 @@ public class UserService {
 
 
     //TODO continuar os metodos
-//R4 - Update user profile
+    //R4 - Update user profile
     @PUT
-    @Path("/{username}")  // Caminho do método
+    @Path("/{username}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response atualizarPerfil(@PathParam("username") String username) {
-        System.out.println("username " + username);
-        return Response.status(200).entity("R4. Perfil de " + username + " atualizado").build();
+    public Response atualizarPerfil(@PathParam("username") String username, UserDto updatedUser) {
+        UserDto loggedUser = userbean.getLoggeduser();
+        if(loggedUser == null || !loggedUser.getUsername().equals(username)){
+            return Response.status(Response.Status.UNAUTHORIZED).entity("Não pode atualizar este perfil").build();
+        }
+
+        boolean updated =  userbean.updateUser(username, updatedUser);
+
+        if(updated) {
+            return Response.status(200).entity("R4. Perfil de " + username + " atualizado").build();
+        } else {
+            return Response.status(404).entity("R4. Perfil de " + username + " nao encontrado").build();
+        }
+
     }
 
 
