@@ -16,8 +16,11 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import pt.uc.dei.proj2.pojo.ProductPojo;
+import pt.uc.dei.proj2.pojo.UserPojo;
 
 import java.io.StringReader;
+import java.util.List;
 
 
 @Path("/users")
@@ -132,10 +135,22 @@ public class UserService {
     public Response adicionarProduto(@PathParam("username") String username, ProductDto produto) {
         UserDto u = userbean.getLoggeduser();
 
-        if (u != null) {
+        if (u != null && u.getUsername().equals(username.toLowerCase())) {
+            List<UserPojo> userPojos = utilityBean.getUserPojos();
+            int highestId = 1;
+
+            for (UserPojo userPojo : userPojos) {
+                for (ProductPojo productPojo : userPojo.getProductPojosList()) {
+                    int idProduto = productPojo.getIdProduto();
+                    if (idProduto >= highestId) {
+                        highestId = idProduto;
+                    }
+                }
+            }
+            produto.setIdProduto(highestId);
             productBean.adicionarProdutoAoUtilizador(produto);
 
-            String message = "R8. produto adicionado ao user " + userbean.getLoggeduser().getUsername();
+            String message = "R8. produto adicionado ao user " + username;
             JSONObject jsonObject = new JSONObject(produto);
             MessageDTO messageDTO = new MessageDTO(message, Json.createReader(new StringReader(jsonObject.toString())).readObject());
 

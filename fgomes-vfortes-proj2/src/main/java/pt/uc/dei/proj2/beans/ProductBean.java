@@ -54,7 +54,7 @@ public class ProductBean implements Serializable {
   }
 
   private ProductDto convertProductPojoToProductDto(ProductPojo pp) {
-    ProductDto pd = new ProductDto(pp.getIdProduto(), pp.getTitulo(), pp.getDescricao(), pp.getLocalizacao(), pp.getData(), pp.getAnuncianteId(), pp.getCategoria(), pp.getPreco(), pp.getImagemProduto(), pp.getStateId());
+    ProductDto pd = new ProductDto(pp.getTitulo(), pp.getDescricao(), pp.getLocalizacao(), pp.getData(), pp.getAnuncianteId(), pp.getCategoria(), pp.getPreco(), pp.getImagemProduto(), pp.getStateId());
     return pd;
   }
 }

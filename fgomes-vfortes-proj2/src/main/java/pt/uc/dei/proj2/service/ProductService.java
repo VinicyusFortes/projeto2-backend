@@ -12,21 +12,20 @@ import jakarta.ws.rs.core.Response;
 
 @Path("/products")
 public class ProductService {
-  @Inject
-  UserBean userbean;
+    @Inject
+    UserBean userbean;
 
-  @Context
-  private HttpServletRequest request;
+    @Context
+    private HttpServletRequest request;
 
-  //todo: terminar metodo
-  //R7 - List all products
-  @GET
-  @Consumes(MediaType.APPLICATION_JSON)
-  public Response listarTodosProdutos() {
-    return Response.status(200).entity("R7. listando produtos").build();
+    //todo: terminar metodo
+    //R7 - List all products
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response listarTodosProdutos() {
+        return Response.status(200).entity("R7. listando produtos").build();
 
-  }
-
+    }
 
 
 }

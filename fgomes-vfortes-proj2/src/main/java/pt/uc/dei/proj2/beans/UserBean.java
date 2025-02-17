@@ -32,14 +32,18 @@ public class UserBean implements Serializable {
             return false;
     }
 
+    // TODO verificar porque é que o id do user é sempre definido como 5 quando se regista um utilizador
     public boolean register(UserDto user) {
         UserPojo u = getUser(user.getUsername(), user.getPassword());
         if (u == null) {
-            int counter = utilityBean.getPersistentCounter();
+            int newId = utilityBean.getUserPojos().size() + 1;
+
+//            int counter = utilityBean.getPersistentCounter();
             u = new UserPojo(user.getUsername(), user.getPassword(), user.getFirstName(),
                     user.getLastName(), user.getCellphone(), user.getEmail(),
-                    user.getImage(), ++counter, user.getIdProdutos());
+                    user.getImage(), newId, user.getProdutos());
             addUser(u);
+            System.out.println("New user Id:" + newId);
             utilityBean.writeIntoJsonFile(); // Persiste os dados após adicionar um novo usuário
             return true;
         } else

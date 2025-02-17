@@ -6,7 +6,7 @@ public class MessageDTO {
     private String message;
     private JsonObject json;
 
-    public MessageDTO(String message, JsonObject jsonObject){
+    public MessageDTO(String message, JsonObject jsonObject) {
         this.message = message;
         this.json = jsonObject;
     }
