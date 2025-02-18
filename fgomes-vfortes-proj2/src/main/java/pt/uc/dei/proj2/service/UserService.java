@@ -53,7 +53,7 @@ public class UserService {
 
             return Response.status(200).entity(messageDTO).build();
         }
-        return Response.status(200).entity("R1. username e/ou password errados!").build();
+        return Response.status(401).entity("R1. username e/ou password errados!").build();
     }
 
     //R2 - Logout as user
@@ -75,9 +75,9 @@ public class UserService {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerUser(UserDto user) {
         if (userbean.register(user)) {
-            return Response.status(200).entity("R3. The new user is registered").build();
+            return Response.status(201).entity("R3. The new user is registered").build();
         }
-        return Response.status(200).entity("R3. There is a user with the same username!").build();
+        return Response.status(401).entity("R3. There is a user with the same username!").build();
     }
 
 
@@ -94,22 +94,26 @@ public class UserService {
 
     //R5 - Get user profile
     @GET
-    @Path("/getuser")
+    @Path("/{username}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser() {
-        UserDto u = userbean.getLoggeduser();
-        if (u != null)
-            return Response.status(200).entity(userbean.getLoggeduser()).build();
-        else
-            return Response.status(200).entity("R5. there is no user logged in at the moment!").build();
-    }
+    public Response getUser(@PathParam("username") String username) {
+        System.out.println(username);
+        UserPojo u = userbean.getUserByUsername(username);
+        if (u != null){
 
-    @GET
-    @Path("/allusers")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllUsers() {
-        utilityBean.loadDataFromJson();
-        return Response.status(200).entity("zabszbasidjeasd").build();
+            JsonObject perfil = Json.createObjectBuilder()
+                    .add("firstName", u.getFirstName())
+                    .add("lastName", u.getLastName())
+                    .add("username", u.getUsername())
+                    .add("cellphone", u.getCellphone())
+                    .add("email", u.getEmail())
+                    .add("image", u.getImage()).build();
+
+
+            return Response.status(200).entity(perfil).build();
+        }
+        else
+            return Response.status(400).entity("R5. there is no user logged in at the moment!").build();
     }
 
     //todo continuar a fazer o metodo

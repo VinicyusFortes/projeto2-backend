@@ -73,6 +73,15 @@ public class UserBean implements Serializable {
         return null;
     }
 
+    public UserPojo getUserByUsername(String username) {
+        for (UserPojo u : utilityBean.getUserPojos()) {
+            if (u.getUsername().equals(username))
+                return u;
+            System.out.println("retorno do metodo: " + u);
+        }
+        return null;
+    }
+
     public void addUser(UserPojo u) {
         utilityBean.getUserPojos().add(u);
     }
