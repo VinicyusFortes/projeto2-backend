@@ -20,6 +20,7 @@ import pt.uc.dei.proj2.pojo.ProductPojo;
 import pt.uc.dei.proj2.pojo.UserPojo;
 
 import java.io.StringReader;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,6 +136,7 @@ public class UserService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response adicionarProduto(@PathParam("username") String username, ProductDto produto) {
         UserDto u = userbean.getLoggeduser();
+        produto.setData(LocalDate.now());
 
         if (u != null && u.getUsername().equals(username.toLowerCase())) {
             List<UserPojo> userPojos = utilityBean.getUserPojos();
