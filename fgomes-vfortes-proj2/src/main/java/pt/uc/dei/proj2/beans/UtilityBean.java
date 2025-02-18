@@ -1,9 +1,17 @@
 package pt.uc.dei.proj2.beans;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.json.Json;
+import jakarta.json.JsonBuilderFactory;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbConfig;
+import org.eclipse.yasson.YassonConfig;
 import pt.uc.dei.proj2.pojo.ProductPojo;
 import pt.uc.dei.proj2.pojo.UserPojo;
 
@@ -13,6 +21,8 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @ApplicationScoped
 public class UtilityBean implements Serializable {
@@ -21,8 +31,8 @@ public class UtilityBean implements Serializable {
     ProductBean productBean;
 
     // Removido o static
-    private ArrayList<UserPojo> userPojos = new ArrayList<>();
-    private ArrayList<ProductPojo> productPojos = new ArrayList<>();
+    private List<UserPojo> userPojos = new ArrayList<>();
+    private List<ProductPojo> productPojos = new ArrayList<>();
 
     // Removido o static
 //    private int persistentCounter = 1;
@@ -32,12 +42,13 @@ public class UtilityBean implements Serializable {
     }
 
     public void writeIntoJsonFile() {
-        try (Jsonb jsonb = JsonbBuilder.create()) {
+        JsonbConfig config = new JsonbConfig()
+                .setProperty(YassonConfig.ZERO_TIME_PARSE_DEFAULTING, true);
+        try (Jsonb jsonb = JsonbBuilder.create(config)) {
             String projectRoot = System.getProperty("user.home");
             Path directoryPath = Path.of(projectRoot + File.separator + "data");
             Path fPath = Path.of(directoryPath + File.separator + "utilizadores.json");
             System.out.println("Iniciando escrita no arquivo: " + fPath);
-
             Files.createDirectories(directoryPath);
             PersistedData data = new PersistedData(getUserPojos(), productBean.getProductPojos());
             String jsonContent = jsonb.toJson(data);
@@ -82,19 +93,39 @@ public class UtilityBean implements Serializable {
         }
     }
 
-    public ArrayList<UserPojo> getUserPojos() {
+    public List<UserPojo> getUserPojos() {
         return userPojos;
     }
 
-    public void setUserPojos(ArrayList<UserPojo> userPojos) {
+    public void setUserPojos(List<UserPojo> userPojos) {
         this.userPojos = userPojos;
     }
 
-    public ArrayList<ProductPojo> getProductPojos() {
+    public List<ProductPojo> getProductPojos() {
         return productPojos;
     }
 
-    public void setProductPojos(ArrayList<ProductPojo> productPojos) {
+    public void setProductPojos(List<ProductPojo> productPojos) {
         this.productPojos = productPojos;
+    }
+
+    public JsonObject dtoToJSON(Object dto){
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        JsonBuilderFactory factory = Json.createBuilderFactory(null);
+        JsonObjectBuilder builder = factory.createObjectBuilder();
+
+        try {
+            Map<String, Object> properties = objectMapper.convertValue(dto, Map.class);
+            for (Map.Entry<String, Object> entry : properties.entrySet()) {
+                if (entry.getValue() != null) {
+                    builder.add(entry.getKey(), entry.getValue().toString());
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Erro ao converter DTO para JsonObject", e);
+        }
+
+        return builder.build();
     }
 }

@@ -4,6 +4,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @XmlRootElement
 public class UserDto {
@@ -16,7 +17,7 @@ public class UserDto {
     private String email;
     private String image;
     private int id;
-    private ArrayList<String> produtos;
+    private List<ProductDto> produtos;
     private String mensagemLogin;
 //TODO lista de produtos inserida no array incorreto.
 
@@ -25,7 +26,7 @@ public class UserDto {
     }
 
 
-    public UserDto(String username, String password, String firstName, String lastName, String cellphone, String email, String image, int id, ArrayList<String> idProdutos) {
+    public UserDto(String username, String password, String firstName, String lastName, String cellphone, String email, String image, int id, List<ProductDto> produtos) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -34,7 +35,7 @@ public class UserDto {
         this.email = email;
         this.image = image;
         this.id = id;
-        this.produtos = idProdutos;
+        this.produtos = produtos;
     }
 
     @XmlElement
@@ -111,11 +112,11 @@ public class UserDto {
         this.id = id;
     }
 
-    public ArrayList<String> getProdutos() {
+    public List<ProductDto> getProdutos() {
         return produtos;
     }
 
-    public void setProdutos(ArrayList<String> produtos) {
+    public void setProdutos(List<ProductDto> produtos) {
         this.produtos = produtos;
     }
 

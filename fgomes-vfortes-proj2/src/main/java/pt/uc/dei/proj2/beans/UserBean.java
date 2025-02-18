@@ -4,10 +4,14 @@ package pt.uc.dei.proj2.beans;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import pt.uc.dei.proj2.dto.ProductDto;
 import pt.uc.dei.proj2.dto.UserDto;
+import pt.uc.dei.proj2.pojo.ProductPojo;
 import pt.uc.dei.proj2.pojo.UserPojo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @ApplicationScoped
 public class UserBean implements Serializable {
@@ -17,6 +21,8 @@ public class UserBean implements Serializable {
 
     @Inject
     UtilityBean utilityBean;
+    @Inject
+    private ProductBean productBean;
 
     @PostConstruct
     public void init() {
@@ -40,7 +46,7 @@ public class UserBean implements Serializable {
 
             u = new UserPojo(user.getUsername(), user.getPassword(), user.getFirstName(),
                     user.getLastName(), user.getCellphone(), user.getEmail(),
-                    user.getImage(), newId, user.getProdutos());
+                    user.getImage(), newId, new ArrayList<>());
             addUser(u);
             System.out.println("New user Id:" + newId);
             utilityBean.writeIntoJsonFile(); // Persiste os dados após adicionar um novo usuário
@@ -58,9 +64,17 @@ public class UserBean implements Serializable {
     }
 
     private UserDto convertUserPojoToUserDto(UserPojo up) {
+        List<ProductDto> productDtos = new ArrayList<>();
+
+        //Utilizando a lista vazia de DTOs, faz a conversão singularmente de ProductDTO para ProductPojo
+        //para em seguida enviar correctamente no conscrutor do UserDTO
+        for(ProductPojo productPojo : up.getProductPojosList()){
+            ProductDto productDto = productBean.convertProductPojoToProductDto(productPojo);
+            productDtos.add(productDto);
+        }
         UserDto ud = new UserDto(up.getUsername(), up.getPassword(), up.getFirstName(),
                 up.getLastName(), up.getCellphone(), up.getEmail(),
-                up.getImage(), up.getId(), up.getIdProdutos());
+                up.getImage(), up.getId(), productDtos);
         System.out.println("converted id" + up.getId());
         return ud;
     }

@@ -6,12 +6,13 @@ import pt.uc.dei.proj2.pojo.UserPojo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 @ApplicationScoped
 public class PersistedData implements Serializable {
     // ALTERAÇÃO: Campos alterados de public para private
-    private ArrayList<UserPojo> users;
-    private ArrayList<ProductPojo> products;
+    private List<UserPojo> users;
+    private List<ProductPojo> products;
     private int counter;
 
     // ALTERAÇÃO: Construtor padrão movido para o topo da classe
@@ -20,9 +21,8 @@ public class PersistedData implements Serializable {
     }
 
     // Sem alterações no construtor com parâmetros
-    public PersistedData(ArrayList<UserPojo> users, ArrayList<ProductPojo> products) {
+    public PersistedData(List<UserPojo> users, List<ProductPojo> products) {
         this.users = users;
-        this.counter = counter;
 
         for(ProductPojo productPojo : products){
             int id = productPojo.getAnuncianteId();
@@ -44,7 +44,7 @@ public class PersistedData implements Serializable {
         this.counter = counter;
     }
 
-    public ArrayList<UserPojo> getUsers() {
+    public List<UserPojo> getUsers() {
         return users;
     }
 
@@ -52,7 +52,7 @@ public class PersistedData implements Serializable {
         this.users = users;
     }
 
-    public ArrayList<ProductPojo> getProducts() {
+    public List<ProductPojo> getProducts() {
         return products;
     }
 

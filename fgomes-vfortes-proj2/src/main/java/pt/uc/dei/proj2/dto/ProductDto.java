@@ -1,14 +1,11 @@
 package pt.uc.dei.proj2.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.inject.Inject;
-import jakarta.json.bind.annotation.JsonbDateFormat;
 import pt.uc.dei.proj2.beans.UtilityBean;
-import pt.uc.dei.proj2.pojo.ProductPojo;
-import pt.uc.dei.proj2.pojo.UserPojo;
 import pt.uc.dei.proj2.utils.State;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class ProductDto {
     @Inject
@@ -19,8 +16,10 @@ public class ProductDto {
     private String titulo;
     private String descricao;
     private String localizacao;
-    @JsonbDateFormat("yyyy-MM-dd") // Exemplo: 2024-02-14
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
     private LocalDate data;
+//    @JsonbDateFormat("yyyy-MM-dd")
+//    private Date data;
     private int anuncianteId;
     private String categoria;
     private double preco;
@@ -31,7 +30,7 @@ public class ProductDto {
         this.idProduto = ++counter;
     }
 
-    public ProductDto(String titulo, String descricao, String localizacao, LocalDate data, int anuncianteId, String categoria, double preco, String imagemProduto, State stateId) {
+    public ProductDto(String titulo, String descricao, String localizacao, LocalDate data, int anuncianteId, String categoria, double preco, String imagemProduto, State stateId, int idProduto) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.localizacao = localizacao;
@@ -41,6 +40,7 @@ public class ProductDto {
         this.preco = preco;
         this.imagemProduto = imagemProduto;
         this.stateId = stateId;
+        this.idProduto = idProduto;
     }
 
     public int getIdProduto() {
