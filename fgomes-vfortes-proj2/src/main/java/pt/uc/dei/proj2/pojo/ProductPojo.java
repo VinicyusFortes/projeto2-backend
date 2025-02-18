@@ -1,14 +1,17 @@
 package pt.uc.dei.proj2.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import pt.uc.dei.proj2.utils.State;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ProductPojo {
   private int idProduto;
   private String titulo;
   private String descricao;
   private String localizacao;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
   private LocalDate data;
   private int anuncianteId;
   private String categoria;

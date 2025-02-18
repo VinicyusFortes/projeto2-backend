@@ -20,6 +20,7 @@ import pt.uc.dei.proj2.pojo.ProductPojo;
 import pt.uc.dei.proj2.pojo.UserPojo;
 
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -137,22 +138,22 @@ public class UserService {
 
         if (u != null && u.getUsername().equals(username.toLowerCase())) {
             List<UserPojo> userPojos = utilityBean.getUserPojos();
+            List<ProductPojo> productPojos = new ArrayList<>();
             int highestId = 1;
 
             for (UserPojo userPojo : userPojos) {
                 for (ProductPojo productPojo : userPojo.getProductPojosList()) {
+                    productPojos.add(productPojo);
                     int idProduto = productPojo.getIdProduto();
                     if (idProduto >= highestId) {
-                        highestId = idProduto;
+                        highestId = ++idProduto;
                     }
                 }
             }
-            produto.setIdProduto(highestId);
-            productBean.adicionarProdutoAoUtilizador(produto);
 
-            String message = "R8. produto adicionado ao user " + username;
-            JSONObject jsonObject = new JSONObject(produto);
-            MessageDTO messageDTO = new MessageDTO(message, Json.createReader(new StringReader(jsonObject.toString())).readObject());
+            produto.setIdProduto(highestId);
+            utilityBean.setProductPojos(productPojos);
+            MessageDTO messageDTO = productBean.adicionarProdutoAoUtilizador(produto, u);
 
             return Response.status(200).entity(messageDTO).build();
         } else {
