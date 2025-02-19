@@ -100,4 +100,33 @@ public class UserBean implements Serializable {
     public void addUser(UserPojo u) {
         utilityBean.getUserPojos().add(u);
     }
+
+
+    /**
+     * Atualiza os dados de um utilizador existente.
+     * <p>
+     * Este mét0do procura um utilizador na lista de utilizadores com base no username
+     * do utilizador fornecido. Se encontrado, substitui o utilizador existente pelos
+     * novos dados e persiste as alterações no ficheiro JSON.
+     *
+     * @param userAtualizado O objeto UserPojo contendo os dados atualizados do utilizador.
+     *                       O username deste objeto é usado para identificar o utilizador a ser atualizado.
+     * @return boolean Retorna true se o utilizador foi encontrado e atualizado com sucesso,
+     * false se o utilizador não foi encontrado ou se ocorreu um erro durante a atualização.
+     */
+
+
+    public boolean atualizarUser(UserPojo userAtualizado) {
+        for (int i = 0; i < utilityBean.getUserPojos().size(); i++) {
+            UserPojo u = utilityBean.getUserPojos().get(i);
+            if (u.getUsername().equals(userAtualizado.getUsername())) {
+                utilityBean.getUserPojos().set(i, userAtualizado);
+                System.out.println("Vou tentar escrever a 1a vez...");
+                utilityBean.writeIntoJsonFile(); // Persiste as alterações
+                System.out.println("Escrita 1a vez com sucesso");
+                return true;
+            }
+        }
+        return false;
+    }
 }

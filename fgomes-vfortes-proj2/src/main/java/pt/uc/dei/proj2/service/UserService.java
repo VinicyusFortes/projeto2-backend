@@ -88,10 +88,62 @@ public class UserService {
     //R4 - Update user profile
     @PUT
     @Path("/{username}")  // Caminho do método
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response atualizarPerfil(@PathParam("username") String username) {
+    public Response atualizarPerfil(@PathParam("username") String username, JsonObject dadosAtualizacao) {
+        // Regista o username recebido para fins de depuração
         System.out.println("username " + username);
-        return Response.status(200).entity("R4. Perfil de " + username + " atualizado").build();
+
+        // Procura o utilizador pelo username na base de dados
+        UserPojo u = userbean.getUserByUsername(username);
+
+        // Verifica se o utilizador foi encontrado
+        if (u != null) {
+            // Atualiza os campos do utilizador se estiverem presentes no JSON recebido
+
+            if (dadosAtualizacao.containsKey("firstName")) {
+                u.setFirstName(dadosAtualizacao.getString("firstName"));
+            }
+
+            if (dadosAtualizacao.containsKey("lastName")) {
+                u.setLastName(dadosAtualizacao.getString("lastName"));
+            }
+
+            if (dadosAtualizacao.containsKey("cellphone")) {
+                u.setCellphone(dadosAtualizacao.getString("cellphone"));
+            }
+
+            if (dadosAtualizacao.containsKey("email")) {
+                u.setEmail(dadosAtualizacao.getString("email"));
+            }
+
+            if (dadosAtualizacao.containsKey("image")) {
+                u.setImage(dadosAtualizacao.getString("image"));
+            }
+
+            // Tenta guardar as alterações na base de dados
+            boolean atualizado = userbean.atualizarUser(u);
+
+            if (atualizado) {
+                // Se a atualização for bem-sucedida, cria um JSON com os dados atualizados
+                JsonObject perfilAtualizado = Json.createObjectBuilder()
+                        .add("firstName", u.getFirstName())
+                        .add("lastName", u.getLastName())
+                        .add("cellphone", u.getCellphone())
+                        .add("email", u.getEmail())
+                        .add("image", u.getImage())
+                        .build();
+
+                // Devolve o perfil atualizado com estado 200 (OK)
+                return Response.status(200).entity(perfilAtualizado).build();
+            } else {
+                // Se houver falha na atualização, devolve estado 500 (Erro Interno do Servidor)
+                return Response.status(500).entity("R4. Falha ao atualizar o perfil de " + username).build();
+            }
+        } else {
+            // Se o utilizador não for encontrado, devolve estado 400 (Pedido Inválido)
+            return Response.status(400).entity("R4. Perfil de " + username + " não encontrado.").build();
+        }
     }
 
 
@@ -102,7 +154,7 @@ public class UserService {
     public Response getUser(@PathParam("username") String username) {
         System.out.println(username);
         UserPojo u = userbean.getUserByUsername(username);
-        if (u != null){
+        if (u != null) {
 
             JsonObject perfil = Json.createObjectBuilder()
                     .add("firstName", u.getFirstName())
@@ -114,8 +166,7 @@ public class UserService {
 
 
             return Response.status(200).entity(perfil).build();
-        }
-        else
+        } else
             return Response.status(400).entity("R5. there is no user logged in at the moment!").build();
     }
 
