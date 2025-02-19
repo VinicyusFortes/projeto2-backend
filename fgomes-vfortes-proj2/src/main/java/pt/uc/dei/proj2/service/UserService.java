@@ -88,6 +88,7 @@ public class UserService {
     //R4 - Update user profile
     @PUT
     @Path("/{username}")  // Caminho do método
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response atualizarPerfil(@PathParam("username") String username, JsonObject dadosAtualizacao) {
         // Regista o username recebido para fins de depuração
