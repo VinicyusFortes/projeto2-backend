@@ -12,7 +12,7 @@ import java.util.List;
 public class PersistedData implements Serializable {
     // ALTERAÇÃO: Campos alterados de public para private
     private List<UserPojo> users;
-    private List<ProductPojo> products;
+    private List<ProductPojo> products; //FIXME: remove
     private int counter;
 
     // ALTERAÇÃO: Construtor padrão movido para o topo da classe
@@ -23,7 +23,7 @@ public class PersistedData implements Serializable {
     // Sem alterações no construtor com parâmetros
     public PersistedData(List<UserPojo> users, List<ProductPojo> products) {
         this.users = users;
-
+        /*
         for(ProductPojo productPojo : products){
             int id = productPojo.getAnuncianteId();
             for(UserPojo userPojo : users){
@@ -32,7 +32,7 @@ public class PersistedData implements Serializable {
                     break;
                 }
             }
-        }
+        }*/
     }
 
     // Sem alterações nos getters e setters
@@ -47,6 +47,8 @@ public class PersistedData implements Serializable {
     public List<UserPojo> getUsers() {
         return users;
     }
+
+
 
     public void setUsers(ArrayList<UserPojo> users) {
         this.users = users;

@@ -11,10 +11,6 @@ public class UserPojo {
     private String cellphone;
     private List<ProductPojo> products = new ArrayList<>();
 
-    public List<ProductPojo> getProductPojosList() {
-        return products;
-    }
-
     private String email;
     private String image;
     private int id;
@@ -106,6 +102,10 @@ public class UserPojo {
 
     public void setProducts(List<ProductPojo> produtos) {
         this.products = produtos;
+    }
+
+    public void addProduct(ProductPojo pj) {
+        this.products.add(pj);
     }
 }
 

@@ -1,5 +1,6 @@
 package pt.uc.dei.proj2.service;
 
+import pt.uc.dei.proj2.beans.ProductBean;
 import pt.uc.dei.proj2.dto.UserDto;
 import pt.uc.dei.proj2.beans.UserBean;
 import jakarta.inject.Inject;
@@ -8,12 +9,15 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import pt.uc.dei.proj2.pojo.ProductPojo;
+
+import java.util.ArrayList;
 
 
 @Path("/products")
 public class ProductService {
     @Inject
-    UserBean userbean;
+    ProductBean productBean;
 
     @Context
     private HttpServletRequest request;
@@ -23,6 +27,8 @@ public class ProductService {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     public Response listarTodosProdutos() {
+        ArrayList<ProductPojo> products = productBean.getProducts();
+        // FIXME: Convert to DTO and return
         return Response.status(200).entity("R7. listando produtos").build();
 
     }
