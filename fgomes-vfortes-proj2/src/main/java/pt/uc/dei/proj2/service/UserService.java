@@ -176,11 +176,20 @@ public class UserService {
     @Path("/{username}/products")
     @Produces(MediaType.APPLICATION_JSON)
     public Response listarProdutosUser(@PathParam("username") String username) {
-        UserDto u = userbean.getLoggeduser();
+        //UserDto u = userbean.getLoggeduser();
+
+        ArrayList<ProductPojo> products = userbean.getProductsOfUsername(username);
+        ArrayList<ProductDto> produtos = productBean.convertProductPojoListToProductDtoList(products);
+        return Response.status(200).entity(produtos).build();
+
+
+        /*
+
+
         if (u != null) {
             return Response.status(200).entity("R6. listando os produtos do user" + username).build();
         }
-        return Response.status(200).entity("R6. nao há produtos para este user").build();
+        return Response.status(200).entity("R6. nao há produtos para este user").build();*/
     }
 
 

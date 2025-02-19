@@ -129,4 +129,8 @@ public class UserBean implements Serializable {
         }
         return false;
     }
+
+    public ArrayList<ProductPojo> getProductsOfUsername(String username) {
+        return getUserByUsername(username).getProducts();
+    }
 }

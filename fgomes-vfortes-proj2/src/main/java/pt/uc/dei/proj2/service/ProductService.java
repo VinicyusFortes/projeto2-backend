@@ -2,8 +2,6 @@ package pt.uc.dei.proj2.service;
 
 import pt.uc.dei.proj2.beans.ProductBean;
 import pt.uc.dei.proj2.dto.ProductDto;
-import pt.uc.dei.proj2.dto.UserDto;
-import pt.uc.dei.proj2.beans.UserBean;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.*;
@@ -13,7 +11,6 @@ import jakarta.ws.rs.core.Response;
 import pt.uc.dei.proj2.pojo.ProductPojo;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 @Path("/products")
