@@ -32,7 +32,7 @@ public class UtilityBean implements Serializable {
 
     // Removido o static
     private List<UserPojo> userPojos = new ArrayList<>();
-    private List<ProductPojo> productPojos = new ArrayList<>();
+    private List<ProductPojo> productPojos = new ArrayList<>(); // FIXME: Remove
 
     // Removido o static
 //    private int persistentCounter = 1;
@@ -82,6 +82,7 @@ public class UtilityBean implements Serializable {
                 } else {
                     System.out.println("O arquivo JSON está vazio. Iniciando com uma lista vazia.");
                     userPojos = new ArrayList<>();
+                    // FIXME: Why not productPojos = new ArrayList<>();?
                 }
             } catch (Exception e) {
                 throw new RuntimeException("Erro ao ler o arquivo JSON", e);

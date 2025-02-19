@@ -9,6 +9,7 @@ import pt.uc.dei.proj2.dto.MessageDTO;
 import pt.uc.dei.proj2.dto.ProductDto;
 import pt.uc.dei.proj2.dto.UserDto;
 import pt.uc.dei.proj2.pojo.ProductPojo;
+import pt.uc.dei.proj2.pojo.UserPojo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.Objects;
 @ApplicationScoped
 public class ProductBean implements Serializable {
 
-    private ArrayList<ProductPojo> productPojos = new ArrayList<>();
+    private ArrayList<ProductPojo> productPojos = new ArrayList<>(); //FIXME: Delete
 
     @Inject
     private UtilityBean utilityBean;
@@ -31,6 +32,19 @@ public class ProductBean implements Serializable {
 
     public MessageDTO adicionarProdutoAoUtilizador(ProductDto produto, UserDto u) {
         UserDto loggedUser = userBean.getLoggeduser();
+        //public ProductPojo(int idProduto, String titulo, String descricao, String localizacao, LocalDate data, int anuncianteId, String categoria, double preco, String imagemProduto, State stateId) {
+        ProductPojo pj = new ProductPojo(
+                produto.getIdProduto(),
+                produto.getTitulo(),
+                produto.getDescricao(),
+                produto.getLocalizacao(),
+                produto.getData(),
+                produto.getAnuncianteId(),
+                produto.getCategoria(),
+                produto.getPreco(),
+                produto.getImagemProduto(),
+                produto.getStateId()
+        );
 
         if (u == null || loggedUser == null || !u.getUsername().equals(loggedUser.getUsername()) || u.getId() != loggedUser.getId()) {
             String message = "O utilizador indicado não está ligado.";
@@ -43,27 +57,30 @@ public class ProductBean implements Serializable {
 
             return new MessageDTO(message, loggedUserJSON);
         } else {
-            ProductPojo p = new ProductPojo(produto.getIdProduto(), produto.getTitulo(), produto.getDescricao(), produto.getLocalizacao(), produto.getData(), userBean.getLoggeduser().getId(), produto.getCategoria(), produto.getPreco(), produto.getImagemProduto(), produto.getStateId());
-            String message = null;
-            JsonObject createdProductJSON = null;
-            try {
-                productPojos.add(p);
-                utilityBean.writeIntoJsonFile();
-                System.out.println("produto " + p.getTitulo() + " criado");
 
-                message = "O produto foi criado com sucesso";
+            // Fetch user from presistedData
+            for (UserPojo userPojo: utilityBean.getUserPojos()) {
+                if (userPojo.getId() == u.getId()) {
+                    userPojo.addProduct(pj);
+                    utilityBean.writeIntoJsonFile();
 
-                //Garante que o objecto retornado (utilizador ligado) não está como null
-                Objects.requireNonNull(loggedUser);
-                createdProductJSON = utilityBean.dtoToJSON(produto);
-
-            } catch (Exception e) {
-                e.printStackTrace();
+                    JsonObject createdProductJSON = utilityBean.dtoToJSON(produto);
+                    Objects.requireNonNull(createdProductJSON);
+                    return new MessageDTO("O produto foi criado com sucesso", createdProductJSON);
+                }
             }
-            Objects.requireNonNull(message);
-            Objects.requireNonNull(createdProductJSON);
-            return new MessageDTO(message, createdProductJSON);
+
+            return new MessageDTO("Nao foi possível criar o produto", null);
         }
+    }
+
+    public ArrayList<ProductPojo> getProducts() {
+        ArrayList<ProductPojo> products = new ArrayList<>();
+        for (UserPojo userPojo: utilityBean.getUserPojos())
+            for (ProductPojo p: userPojo.getProducts())
+                products.add(p);
+
+        return products;
     }
 
     public ArrayList<ProductPojo> getProductPojos() {

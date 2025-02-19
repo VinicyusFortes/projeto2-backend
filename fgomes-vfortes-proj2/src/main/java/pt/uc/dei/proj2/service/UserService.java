@@ -19,6 +19,7 @@ import jakarta.ws.rs.core.Response;
 import pt.uc.dei.proj2.pojo.ProductPojo;
 import pt.uc.dei.proj2.pojo.UserPojo;
 
+import javax.print.attribute.standard.Media;
 import java.io.StringReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -84,7 +85,7 @@ public class UserService {
 
 
     //TODO continuar os metodos
-//R4 - Update user profile
+    //R4 - Update user profile
     @PUT
     @Path("/{username}")  // Caminho do método
     @Produces(MediaType.APPLICATION_JSON)
@@ -126,7 +127,6 @@ public class UserService {
     public Response listarProdutosUser(@PathParam("username") String username) {
         UserDto u = userbean.getLoggeduser();
         if (u != null) {
-
             return Response.status(200).entity("R6. listando os produtos do user" + username).build();
         }
         return Response.status(200).entity("R6. nao há produtos para este user").build();
@@ -138,18 +138,17 @@ public class UserService {
     @POST
     @Path("/{username}/products")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response adicionarProduto(@PathParam("username") String username, ProductDto produto) {
         UserDto u = userbean.getLoggeduser();
         produto.setData(LocalDate.now());
 
         if (u != null && u.getUsername().equals(username.toLowerCase())) {
             List<UserPojo> userPojos = utilityBean.getUserPojos();
-            List<ProductPojo> productPojos = new ArrayList<>();
             int highestId = 1;
 
             for (UserPojo userPojo : userPojos) {
-                for (ProductPojo productPojo : userPojo.getProductPojosList()) {
-                    productPojos.add(productPojo);
+                for (ProductPojo productPojo : userPojo.getProducts()) {
                     int idProduto = productPojo.getIdProduto();
                     if (idProduto >= highestId) {
                         highestId = ++idProduto;
@@ -158,7 +157,6 @@ public class UserService {
             }
 
             produto.setIdProduto(highestId);
-            utilityBean.setProductPojos(productPojos);
             MessageDTO messageDTO = productBean.adicionarProdutoAoUtilizador(produto, u);
 
             return Response.status(200).entity(messageDTO).build();

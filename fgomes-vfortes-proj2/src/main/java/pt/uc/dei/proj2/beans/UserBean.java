@@ -21,6 +21,7 @@ public class UserBean implements Serializable {
 
     @Inject
     UtilityBean utilityBean;
+
     @Inject
     private ProductBean productBean;
 
@@ -68,7 +69,7 @@ public class UserBean implements Serializable {
 
         //Utilizando a lista vazia de DTOs, faz a conversão singularmente de ProductDTO para ProductPojo
         //para em seguida enviar correctamente no conscrutor do UserDTO
-        for(ProductPojo productPojo : up.getProductPojosList()){
+        for(ProductPojo productPojo : up.getProducts()){
             ProductDto productDto = productBean.convertProductPojoToProductDto(productPojo);
             productDtos.add(productDto);
         }
