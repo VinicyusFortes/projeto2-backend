@@ -12,7 +12,6 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.uc.dei.proj2.pojo.ProductPojo;
-
 import java.util.ArrayList;
 
 
@@ -24,7 +23,6 @@ public class ProductService {
     @Context
     private HttpServletRequest request;
 
-    //todo: terminar metodo
     //R7 - List all products
     @GET
     @PermitAll
@@ -35,5 +33,6 @@ public class ProductService {
         ArrayList<ProductDto> produtos = productBean.convertProductPojoListToProductDtoList(products);
         return Response.status(200).entity(produtos).build();
     }
+
 
 }

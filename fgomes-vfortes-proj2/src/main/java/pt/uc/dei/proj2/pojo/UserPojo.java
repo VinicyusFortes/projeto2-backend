@@ -9,7 +9,7 @@ public class UserPojo {
     private String firstName;
     private String lastName;
     private String cellphone;
-    private List<ProductPojo> products = new ArrayList<>();
+    private ArrayList<ProductPojo> products = new ArrayList<>();
 
     private String email;
     private String image;
@@ -19,7 +19,7 @@ public class UserPojo {
     }
 
     //os parametros deste construtor que de coincidir com os parametros do userdto e com qualquer request que envolva criar ou atualizar utilizador no userbean.java(register() e convertUserPojoToUserDto())
-    public UserPojo(String username, String password, String firstName, String lastName, String cellphone, String email, String image, int id, List<ProductPojo> products) {
+    public UserPojo(String username, String password, String firstName, String lastName, String cellphone, String email, String image, int id, ArrayList<ProductPojo> products) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -30,7 +30,6 @@ public class UserPojo {
         this.id = id;
         this.products = products;
     }
-//TODO CORRIGIR PROBLEMA DE ARRAYS LISTA PRODTOS
 
     public String getUsername() {
         return username;
@@ -96,11 +95,11 @@ public class UserPojo {
         this.id = id;
     }
 
-    public List<ProductPojo> getProducts() {
+    public ArrayList<ProductPojo> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductPojo> produtos) {
+    public void setProducts(ArrayList<ProductPojo> produtos) {
         this.products = produtos;
     }
 

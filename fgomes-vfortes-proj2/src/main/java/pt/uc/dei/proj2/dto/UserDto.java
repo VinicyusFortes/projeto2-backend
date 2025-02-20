@@ -19,7 +19,6 @@ public class UserDto {
     private int id;
     private List<ProductDto> produtos;
     private String mensagemLogin;
-//TODO lista de produtos inserida no array incorreto.
 
     public UserDto() {
         this.id = ++counter;
@@ -36,6 +35,7 @@ public class UserDto {
         this.image = image;
         this.id = id;
         this.produtos = produtos;
+        counter++;
     }
 
     @XmlElement
@@ -126,5 +126,13 @@ public class UserDto {
 
     public void setMensagemLogin(String mensagemLogin) {
         this.mensagemLogin = mensagemLogin;
+    }
+
+    public void addProduto(ProductDto produto) {
+        if (produtos == null) {
+            produtos = new ArrayList<>();
+        }
+        produto.setAnuncianteId(this.id); // Corrige o ID do anunciante
+        produtos.add(produto);
     }
 }

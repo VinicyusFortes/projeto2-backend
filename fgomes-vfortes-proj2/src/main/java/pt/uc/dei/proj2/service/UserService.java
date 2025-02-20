@@ -2,7 +2,6 @@ package pt.uc.dei.proj2.service;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
-import org.json.JSONObject;
 import pt.uc.dei.proj2.beans.ProductBean;
 import pt.uc.dei.proj2.beans.UserBean;
 import pt.uc.dei.proj2.beans.UtilityBean;
@@ -18,9 +17,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.uc.dei.proj2.pojo.ProductPojo;
 import pt.uc.dei.proj2.pojo.UserPojo;
-
-import javax.print.attribute.standard.Media;
-import java.io.StringReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +60,6 @@ public class UserService {
         return Response.status(401).entity("R1. username e/ou password errados!").build();
     }
 
-
     //R2 - Logout as user
     @POST
     @Path("/logout")
@@ -101,11 +96,9 @@ public class UserService {
         return Response.status(401).entity("R3. There is a user with the same username!").build();
     }
 
-
-    //TODO continuar os metodos
     //R4 - Update user profile
     @PUT
-    @Path("/{username}")  // Caminho do método
+    @Path("/{username}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response atualizarPerfil(@PathParam("username") String username, JsonObject dadosAtualizacao) {
@@ -188,17 +181,15 @@ public class UserService {
             return Response.status(400).entity("R5. there is no user logged in at the moment!").build();
     }
 
-    //todo continuar a fazer o metodo
     //R6 - List products of a user
     @GET
     @Path("/{username}/products")
     @Produces(MediaType.APPLICATION_JSON)
     public Response listarProdutosUser(@PathParam("username") String username) {
-        UserDto u = userbean.getLoggeduser();
-        if (u != null) {
-            return Response.status(200).entity("R6. listando os produtos do user" + username).build();
-        }
-        return Response.status(200).entity("R6. nao há produtos para este user").build();
+        ArrayList<ProductPojo> products = userbean.getProductsOfUsername(username);
+        ArrayList<ProductDto> produtos = productBean.convertProductPojoListToProductDtoList(products);
+        return Response.status(200).entity(produtos).build();
+
     }
 
 
@@ -226,6 +217,7 @@ public class UserService {
             }
 
             produto.setIdProduto(highestId);
+            produto.setAnuncianteId(u.getId());
             MessageDTO messageDTO = productBean.adicionarProdutoAoUtilizador(produto, u);
 
             return Response.status(200).entity(messageDTO).build();
@@ -235,7 +227,6 @@ public class UserService {
     }
 
 
-    //todo: terminar o metodo
     //R9 Update product of user products
     @POST
     @Path("/{username}/products/{productId}")
@@ -290,8 +281,12 @@ public class UserService {
         }
     }
 
-
-
-
-
+    //Retorna todos os utilizadores
+    @GET
+    @Path("/allusers")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllUsers() {
+        List<UserDto> users = userbean.getAllUsers();
+        return Response.status(200).entity(users).build();
+    }
 }
