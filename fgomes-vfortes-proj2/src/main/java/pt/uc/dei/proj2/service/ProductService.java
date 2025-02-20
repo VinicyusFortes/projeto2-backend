@@ -9,7 +9,6 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.uc.dei.proj2.pojo.ProductPojo;
-
 import java.util.ArrayList;
 
 
@@ -21,14 +20,12 @@ public class ProductService {
     @Context
     private HttpServletRequest request;
 
-    //todo: terminar metodo
     //R7 - List all products
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response listarTodosProdutos() {
         ArrayList<ProductPojo> products = productBean.getProducts();
         ArrayList<ProductDto> produtos = productBean.convertProductPojoListToProductDtoList(products);
-        // FIXME: Convert to DTO and return
         return Response.status(200).entity(produtos).build();
     }
 }

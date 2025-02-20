@@ -11,15 +11,13 @@ public class ProductDto {
     @Inject
     UtilityBean utilityBean;
 
-    private int counter = 0;
+    private static int counter = 0;
     private int idProduto;
     private String titulo;
     private String descricao;
     private String localizacao;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
     private LocalDate data;
-//    @JsonbDateFormat("yyyy-MM-dd")
-//    private Date data;
     private int anuncianteId;
     private String categoria;
     private double preco;
@@ -119,8 +117,8 @@ public class ProductDto {
         return counter;
     }
 
-    public void setCounter(int counter) {
-        counter = counter;
+    public static void setCounter(int newCounter) {
+        counter = newCounter;
     }
 
     public State getStateId() {

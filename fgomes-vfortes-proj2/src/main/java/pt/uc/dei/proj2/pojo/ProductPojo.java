@@ -2,9 +2,7 @@ package pt.uc.dei.proj2.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import pt.uc.dei.proj2.utils.State;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class ProductPojo {
   private int idProduto;
@@ -20,7 +18,6 @@ public class ProductPojo {
   private State stateId;
 
   public ProductPojo(){
-
   }
 
   public ProductPojo(int idProduto, String titulo, String descricao, String localizacao, LocalDate data, int anuncianteId, String categoria, double preco, String imagemProduto, State stateId) {

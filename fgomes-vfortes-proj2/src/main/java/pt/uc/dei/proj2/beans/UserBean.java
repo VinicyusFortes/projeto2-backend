@@ -38,8 +38,6 @@ public class UserBean implements Serializable {
         } else
             return false;
     }
-
-    // TODO verificar porque é que o id do user é sempre definido como 5 quando se regista um utilizador
     public boolean register(UserDto user) {
         UserPojo u = getUser(user.getUsername(), user.getPassword());
         if (u == null) {
@@ -132,5 +130,16 @@ public class UserBean implements Serializable {
 
     public ArrayList<ProductPojo> getProductsOfUsername(String username) {
         return getUserByUsername(username).getProducts();
+    }
+
+    public ArrayList<UserDto> getAllUsers() {
+        ArrayList<UserDto> allUsers = new ArrayList<>();
+        for (UserPojo userPojo : utilityBean.getUserPojos()) {
+            UserDto userDto = convertUserPojoToUserDto(userPojo);
+            // Remover informações sensíveis
+            userDto.setPassword(null); // Não enviar a password
+            allUsers.add(userDto);
+        }
+        return allUsers;
     }
 }

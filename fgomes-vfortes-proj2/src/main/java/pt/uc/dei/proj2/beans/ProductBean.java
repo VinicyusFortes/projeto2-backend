@@ -27,13 +27,11 @@ public class ProductBean implements Serializable {
     @Inject
     private UserBean userBean;
 
-    //Você pode remover o construtor sem argumentos se não for necessário
     public ProductBean() {
     }
 
     public MessageDTO adicionarProdutoAoUtilizador(ProductDto produto, UserDto u) {
         UserDto loggedUser = userBean.getLoggeduser();
-        //public ProductPojo(int idProduto, String titulo, String descricao, String localizacao, LocalDate data, int anuncianteId, String categoria, double preco, String imagemProduto, State stateId) {
         ProductPojo pj = new ProductPojo(
                 produto.getIdProduto(),
                 produto.getTitulo(),
@@ -101,7 +99,7 @@ public class ProductBean implements Serializable {
         ArrayList<ProductDto> productDtos = new ArrayList<>();
 
         for (ProductPojo pp : productPojos) {
-            ProductDto dto = convertProductPojoToProductDto(pp); // Chama o método existente
+            ProductDto dto = convertProductPojoToProductDto(pp);
             productDtos.add(dto);
         }
 

@@ -30,7 +30,6 @@ public class UserPojo {
         this.id = id;
         this.products = products;
     }
-//TODO CORRIGIR PROBLEMA DE ARRAYS LISTA PRODTOS
 
     public String getUsername() {
         return username;
