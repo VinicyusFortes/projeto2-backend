@@ -1,6 +1,8 @@
 package pt.uc.dei.proj2.service;
 
+import jakarta.annotation.security.PermitAll;
 import pt.uc.dei.proj2.beans.ProductBean;
+import pt.uc.dei.proj2.dto.ProductDto;
 import pt.uc.dei.proj2.dto.UserDto;
 import pt.uc.dei.proj2.beans.UserBean;
 import jakarta.inject.Inject;
@@ -25,13 +27,13 @@ public class ProductService {
     //todo: terminar metodo
     //R7 - List all products
     @GET
+    @PermitAll
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response listarTodosProdutos() {
         ArrayList<ProductPojo> products = productBean.getProducts();
-        // FIXME: Convert to DTO and return
-        return Response.status(200).entity("R7. listando produtos").build();
-
+        ArrayList<ProductDto> produtos = productBean.convertProductPojoListToProductDtoList(products);
+        return Response.status(200).entity(produtos).build();
     }
-
 
 }

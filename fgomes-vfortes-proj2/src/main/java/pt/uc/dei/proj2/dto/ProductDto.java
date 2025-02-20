@@ -18,7 +18,7 @@ public class ProductDto {
     private String localizacao;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
     private LocalDate data;
-//    @JsonbDateFormat("yyyy-MM-dd")
+    //    @JsonbDateFormat("yyyy-MM-dd")
 //    private Date data;
     private int anuncianteId;
     private String categoria;

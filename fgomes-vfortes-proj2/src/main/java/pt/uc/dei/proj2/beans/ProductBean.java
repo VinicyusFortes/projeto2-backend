@@ -13,6 +13,7 @@ import pt.uc.dei.proj2.pojo.UserPojo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @ApplicationScoped
@@ -94,5 +95,15 @@ public class ProductBean implements Serializable {
 
     public ProductDto convertProductPojoToProductDto(ProductPojo pp) {
         return new ProductDto(pp.getTitulo(), pp.getDescricao(), pp.getLocalizacao(), pp.getData(), pp.getAnuncianteId(), pp.getCategoria(), pp.getPreco(), pp.getImagemProduto(), pp.getStateId(), pp.getIdProduto());
+    }
+    public ArrayList<ProductDto> convertProductPojoListToProductDtoList(List<ProductPojo> productPojos) {
+        ArrayList<ProductDto> productDtos = new ArrayList<>();
+
+        for (ProductPojo pp : productPojos) {
+            ProductDto dto = convertProductPojoToProductDto(pp);
+            productDtos.add(dto);
+        }
+
+        return productDtos;
     }
 }

@@ -44,8 +44,13 @@ public class UserService {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response login(UserDto user) {
-        if (userbean.login(user.getUsername(), user.getPassword())) {
+    public Response login(@HeaderParam("Username") String username, @HeaderParam("Password") String password) {
+        // Verifica se o username e password estão presentes no header
+        if (username == null || password == null) {
+            return Response.status(400).entity("R1: Username e/ou Password não fornecidos no header.").build();
+        }
+
+        if (userbean.login(username, password)) {
             String message = "R1. Login feito!";
             UserDto u = userbean.getLoggeduser();
             JsonObject loggedUser = Json.createObjectBuilder()
@@ -59,11 +64,24 @@ public class UserService {
         return Response.status(401).entity("R1. username e/ou password errados!").build();
     }
 
+
     //R2 - Logout as user
     @POST
     @Path("/logout")
-    public Response logout() {
-        HttpSession session = request.getSession(); // Use false para não criar uma nova sessão
+    public Response logout(@HeaderParam("Username") String username, @HeaderParam("Password") String password) {
+        System.out.println("Username recebido: " + username);
+        System.out.println("password recebido: " + password);
+        // Verifica se o username e password estão presentes no header
+        if (username == null || password == null) {
+            return Response.status(400).entity("R2: Username e/ou Password não fornecidos no header.").build();
+        }
+
+        // Tenta fazer o login para validar as credenciais
+        if (!userbean.login(username, password)) {
+            return Response.status(401).entity("R2: Credenciais inválidas.").build();
+        }
+
+        HttpSession session = request.getSession(false); // Use false para não criar uma nova sessão
         if (session != null) {
             session.invalidate();
             return Response.status(200).entity("R2: Logout Successful!").build();
@@ -226,14 +244,54 @@ public class UserService {
         return Response.status(200).entity("R9. produto do " + username + " foi atualizado").build();
     }
 
-    //todo: terminar o metodo
-    //R10 Delete product of user products
+
+    // R10 Delete product of user products
     @DELETE
     @Path("/{username}/products/{productId}")
     public Response apagarProdutoUser(@PathParam("username") String username, @PathParam("productId") String productId) {
         System.out.println("username " + username);
         System.out.println("productId " + productId);
-        return Response.status(200).entity("R10. artigo " + productId + " deletado").build();
+
+        // Encontra o usuário pelo username
+        UserPojo user = userbean.getUserByUsername(username);
+
+        // Verifica se o usuário existe
+        if (user != null) {
+            try {
+                // Converte o productId para int
+                int productIdInt = Integer.parseInt(productId);
+
+                // Tenta remover o produto da lista de produtos do usuário
+                boolean removed = user.getProducts().removeIf(p -> p.getIdProduto() == productIdInt);
+
+                // Se o produto foi removido com sucesso
+                if (removed) {
+                    // Atualiza os dados do usuário no sistema
+                    boolean updated = userbean.atualizarUser(user);
+
+                    if (updated) {
+                        // Retorna uma resposta de sucesso
+                        return Response.status(200).entity("R10. Artigo " + productId + " deletado com sucesso").build();
+                    } else {
+                        // Se a atualização falhar
+                        return Response.status(500).entity("R10. Erro ao atualizar o usuário").build();
+                    }
+                } else {
+                    // Se o produto não foi encontrado na lista do usuário
+                    return Response.status(404).entity("R10. Artigo " + productId + " não encontrado para o usuário " + username).build();
+                }
+            } catch (NumberFormatException e) {
+                // Se o productId não for um número válido
+                return Response.status(400).entity("R10. productId inválido. Deve ser um número inteiro.").build();
+            }
+        } else {
+            // Se o usuário não foi encontrado
+            return Response.status(404).entity("R10. Usuário " + username + " não encontrado").build();
+        }
     }
+
+
+
+
 
 }

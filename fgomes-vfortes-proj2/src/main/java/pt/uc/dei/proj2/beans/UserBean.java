@@ -69,7 +69,7 @@ public class UserBean implements Serializable {
 
         //Utilizando a lista vazia de DTOs, faz a conversão singularmente de ProductDTO para ProductPojo
         //para em seguida enviar correctamente no conscrutor do UserDTO
-        for(ProductPojo productPojo : up.getProducts()){
+        for (ProductPojo productPojo : up.getProducts()) {
             ProductDto productDto = productBean.convertProductPojoToProductDto(productPojo);
             productDtos.add(productDto);
         }
@@ -128,5 +128,11 @@ public class UserBean implements Serializable {
             }
         }
         return false;
+    }
+
+    public boolean isProductOwner(String username, int productId) {
+        UserPojo user = getUserByUsername(username);
+        return user != null && user.getProducts().stream()
+                .anyMatch(p -> p.getIdProduto() == productId);
     }
 }
